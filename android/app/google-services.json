@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "39510691200",
+    "firebase_url": "https://remoteprivatetutoring-f8df0.firebaseio.com",
+    "project_id": "remoteprivatetutoring-f8df0",
+    "storage_bucket": "remoteprivatetutoring-f8df0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39510691200:android:1961ac43108978d5c10565",
+        "android_client_info": {
+          "package_name": "io.instamobile.flutter.chat.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "39510691200-s7p3gk8mj0t99qu96nd1j11dggp6es50.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtMllrmKsvqLbal4n-Z0kdNtA8VE64sA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "39510691200-s7p3gk8mj0t99qu96nd1j11dggp6es50.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

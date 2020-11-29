@@ -1,0 +1,72 @@
+Flutter crash report; please file at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter --no-color run --machine --track-widget-creation --device-id=emulator-5554 lib\main.dart
+
+## exception
+
+ArgumentError: Invalid argument(s): Cannot find executable for C:\src\flutter\bin\cache\dart-sdk\bin\dart.exe.
+
+```
+#0      _getExecutable (package:process/src/interface/local_process_manager.dart:127:5)
+#1      LocalProcessManager.start (package:process/src/interface/local_process_manager.dart:43:30)
+#2      DefaultResidentCompiler._compile (package:flutter_tools/src/compile.dart:693:36)
+#3      DefaultResidentCompiler._recompile (package:flutter_tools/src/compile.dart:601:14)
+#4      _RecompileRequest._run (package:flutter_tools/src/compile.dart:415:16)
+#5      _CompilationRequest.run (package:flutter_tools/src/compile.dart:395:30)
+#6      DefaultResidentCompiler._handleCompilationRequest (package:flutter_tools/src/compile.dart:634:23)
+#7      _rootRunUnary (dart:async/zone.dart:1134:38)
+#8      _CustomZone.runUnary (dart:async/zone.dart:1031:19)
+#9      _CustomZone.runUnaryGuarded (dart:async/zone.dart:933:7)
+#10     _BufferingStreamSubscription._sendData (dart:async/stream_impl.dart:338:11)
+#11     _DelayedData.perform (dart:async/stream_impl.dart:593:14)
+#12     _StreamImplEvents.handleNext (dart:async/stream_impl.dart:709:11)
+#13     _PendingEvents.schedule.<anonymous closure> (dart:async/stream_impl.dart:669:7)
+#14     _rootRun (dart:async/zone.dart:1122:38)
+#15     _CustomZone.run (dart:async/zone.dart:1023:19)
+#16     _CustomZone.runGuarded (dart:async/zone.dart:925:7)
+#17     _CustomZone.bindCallbackGuarded.<anonymous closure> (dart:async/zone.dart:965:23)
+#18     _rootRun (dart:async/zone.dart:1126:13)
+#19     _CustomZone.run (dart:async/zone.dart:1023:19)
+#20     _CustomZone.runGuarded (dart:async/zone.dart:925:7)
+#21     _CustomZone.bindCallbackGuarded.<anonymous closure> (dart:async/zone.dart:965:23)
+#22     _microtaskLoop (dart:async/schedule_microtask.dart:43:21)
+#23     _startMicrotaskLoop (dart:async/schedule_microtask.dart:52:5)
+#24     _runPendingImmediateCallback (dart:isolate-patch/isolate_patch.dart:118:13)
+#25     _RawReceivePortImpl._handleMessage (dart:isolate-patch/isolate_patch.dart:175:5)
+```
+
+## flutter doctor
+
+```
+[✓] Flutter (Channel stable, v1.12.13+hotfix.8, on Microsoft Windows [Version 10.0.18362.778], locale en-US)
+    • Flutter version 1.12.13+hotfix.8 at C:\src\flutter
+    • Framework revision 0b8abb4724 (3 weeks ago), 2020-03-30 13:57:30 -0700
+    • Engine revision af51afceb8
+    • Dart version 2.7.0
+
+[✓] Android toolchain - develop for Android devices (Android SDK version 29.0.2)
+    • Android SDK at C:\Users\sasa_\AppData\Local\Android\sdk
+    • Android NDK location not configured (optional; useful for native profiling support)
+    • Platform android-29, build-tools 29.0.2
+    • Java binary at: C:\Program Files\Android\Android Studio\jre\bin\java
+    • Java version OpenJDK Runtime Environment (build 1.8.0_212-release-1586-b04)
+    • All Android licenses accepted.
+
+[✓] Android Studio (version 3.6)
+    • Android Studio at C:\Program Files\Android\Android Studio
+    • Flutter plugin version 45.1.1
+    • Dart plugin version 192.7761
+    • Java version OpenJDK Runtime Environment (build 1.8.0_212-release-1586-b04)
+
+[!] VS Code (version 1.43.0)
+    • VS Code at C:\Users\sasa_\AppData\Local\Programs\Microsoft VS Code
+    ✗ Flutter extension not installed; install from
+      https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter
+
+[✓] Connected device (1 available)
+    • Android SDK built for x86 • emulator-5554 • android-x86 • Android 10 (API 29) (emulator)
+
+! Doctor found issues in 1 category.
+```
