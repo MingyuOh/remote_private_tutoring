@@ -1,4 +1,4 @@
-# instachatty
+# Remote_private_tutoring App
 
 A new Flutter application.
 
