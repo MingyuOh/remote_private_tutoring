@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:instachatty/constants.dart';
-import 'package:instachatty/services/helper.dart';
+import 'package:remote_private_tutoring/constants.dart';
+import 'package:remote_private_tutoring/services/helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsScreen extends StatelessWidget {

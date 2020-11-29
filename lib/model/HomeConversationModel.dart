@@ -1,4 +1,4 @@
-import 'package:instachatty/model/ConversationModel.dart';
+import 'package:remote_private_tutoring/model/ConversationModel.dart';
 
 import 'User.dart';
 

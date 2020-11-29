@@ -2,14 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:instachatty/constants.dart';
-import 'package:instachatty/model/ContactModel.dart';
-import 'package:instachatty/model/ConversationModel.dart';
-import 'package:instachatty/model/HomeConversationModel.dart';
-import 'package:instachatty/model/User.dart';
-import 'package:instachatty/services/FirebaseHelper.dart';
-import 'package:instachatty/services/helper.dart';
-import 'package:instachatty/ui/chat/ChatScreen.dart';
+import 'package:remote_private_tutoring/constants.dart';
+import 'package:remote_private_tutoring/model/ContactModel.dart';
+import 'package:remote_private_tutoring/model/ConversationModel.dart';
+import 'package:remote_private_tutoring/model/HomeConversationModel.dart';
+import 'package:remote_private_tutoring/model/User.dart';
+import 'package:remote_private_tutoring/services/FirebaseHelper.dart';
+import 'package:remote_private_tutoring/services/helper.dart';
+import 'package:remote_private_tutoring/ui/chat/ChatScreen.dart';
 
 List<ContactModel> _searchResult = [];
 

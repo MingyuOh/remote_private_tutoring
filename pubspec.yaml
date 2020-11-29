@@ -1,4 +1,4 @@
-name: instachatty
+name: remote_private_tutoring
 description: Remote private tutoring application.
 version: 1.0.0+1
 environment:

@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:instachatty/constants.dart';
-import 'package:instachatty/services/helper.dart';
-import 'package:instachatty/ui/login/LoginScreen.dart';
-import 'package:instachatty/ui/signUp/SignUpScreen.dart';
+import 'package:remote_private_tutoring/constants.dart';
+import 'package:remote_private_tutoring/services/helper.dart';
+import 'package:remote_private_tutoring/ui/login/LoginScreen.dart';
+import 'package:remote_private_tutoring/ui/signUp/SignUpScreen.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
 
 // 카카오톡 https://kyungsnim.tistory.com/112 참고

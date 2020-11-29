@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
-import 'package:instachatty/constants.dart';
-import 'package:instachatty/model/HomeConversationModel.dart';
-import 'package:instachatty/model/User.dart';
-import 'package:instachatty/services/helper.dart';
-import 'package:instachatty/ui/home/HomeScreen.dart';
-import 'package:instachatty/ui/videoCallsGroupChat/GroupVideoCallsHandler.dart';
+import 'package:remote_private_tutoring/constants.dart';
+import 'package:remote_private_tutoring/model/HomeConversationModel.dart';
+import 'package:remote_private_tutoring/model/User.dart';
+import 'package:remote_private_tutoring/services/helper.dart';
+import 'package:remote_private_tutoring/ui/home/HomeScreen.dart';
+import 'package:remote_private_tutoring/ui/videoCallsGroupChat/GroupVideoCallsHandler.dart';
 import 'package:wakelock/wakelock.dart';
 
 class VideoCallsGroupScreen extends StatefulWidget {

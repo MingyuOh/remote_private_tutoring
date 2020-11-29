@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart' as easyLocal;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:instachatty/constants.dart';
-import 'package:instachatty/services/helper.dart';
-import 'package:instachatty/ui/auth/AuthScreen.dart';
+import 'package:remote_private_tutoring/constants.dart';
+import 'package:remote_private_tutoring/services/helper.dart';
+import 'package:remote_private_tutoring/ui/auth/AuthScreen.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

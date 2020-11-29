@@ -8,11 +8,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:instachatty/constants.dart';
-import 'package:instachatty/services/FirebaseHelper.dart';
-import 'package:instachatty/services/helper.dart';
-import 'package:instachatty/ui/chat/PlayerWidget.dart';
-import 'package:instachatty/ui/home/HomeScreen.dart';
+import 'package:remote_private_tutoring/constants.dart';
+import 'package:remote_private_tutoring/services/FirebaseHelper.dart';
+import 'package:remote_private_tutoring/services/helper.dart';
+import 'package:remote_private_tutoring/ui/chat/PlayerWidget.dart';
+import 'package:remote_private_tutoring/ui/home/HomeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/User.dart';

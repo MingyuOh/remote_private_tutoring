@@ -9,12 +9,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
-import 'package:instachatty/constants.dart';
-import 'package:instachatty/main.dart';
-import 'package:instachatty/model/User.dart';
-import 'package:instachatty/services/FirebaseHelper.dart';
-import 'package:instachatty/services/helper.dart';
-import 'package:instachatty/ui/home/HomeScreen.dart';
+import 'package:remote_private_tutoring/constants.dart';
+import 'package:remote_private_tutoring/main.dart';
+import 'package:remote_private_tutoring/model/User.dart';
+import 'package:remote_private_tutoring/services/FirebaseHelper.dart';
+import 'package:remote_private_tutoring/services/helper.dart';
+import 'package:remote_private_tutoring/ui/home/HomeScreen.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 

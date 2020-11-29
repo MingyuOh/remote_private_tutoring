@@ -5,14 +5,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
-import 'package:instachatty/constants.dart';
-import 'package:instachatty/main.dart';
-import 'package:instachatty/model/HomeConversationModel.dart';
-import 'package:instachatty/model/MessageData.dart';
-import 'package:instachatty/model/User.dart';
-import 'package:instachatty/services/FirebaseHelper.dart';
-import 'package:instachatty/services/helper.dart';
-import 'package:instachatty/ui/home/HomeScreen.dart';
+import 'package:remote_private_tutoring/constants.dart';
+import 'package:remote_private_tutoring/main.dart';
+import 'package:remote_private_tutoring/model/HomeConversationModel.dart';
+import 'package:remote_private_tutoring/model/MessageData.dart';
+import 'package:remote_private_tutoring/model/User.dart';
+import 'package:remote_private_tutoring/services/FirebaseHelper.dart';
+import 'package:remote_private_tutoring/services/helper.dart';
+import 'package:remote_private_tutoring/ui/home/HomeScreen.dart';
 
 enum SignalingState {
   CallStateNew,

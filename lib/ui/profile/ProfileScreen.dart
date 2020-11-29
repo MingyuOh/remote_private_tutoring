@@ -6,15 +6,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:instachatty/constants.dart';
-import 'package:instachatty/main.dart';
-import 'package:instachatty/model/User.dart';
-import 'package:instachatty/services/FirebaseHelper.dart';
-import 'package:instachatty/services/helper.dart';
-import 'package:instachatty/ui/accountDetails/AccountDetailsScreen.dart';
-import 'package:instachatty/ui/auth/AuthScreen.dart';
-import 'package:instachatty/ui/contactUs/ContactUsScreen.dart';
-import 'package:instachatty/ui/settings/SettingsScreen.dart';
+import 'package:remote_private_tutoring/constants.dart';
+import 'package:remote_private_tutoring/main.dart';
+import 'package:remote_private_tutoring/model/User.dart';
+import 'package:remote_private_tutoring/services/FirebaseHelper.dart';
+import 'package:remote_private_tutoring/services/helper.dart';
+import 'package:remote_private_tutoring/ui/accountDetails/AccountDetailsScreen.dart';
+import 'package:remote_private_tutoring/ui/auth/AuthScreen.dart';
+import 'package:remote_private_tutoring/ui/contactUs/ContactUsScreen.dart';
+import 'package:remote_private_tutoring/ui/settings/SettingsScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final User user;

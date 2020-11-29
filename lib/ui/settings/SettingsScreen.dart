@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:instachatty/constants.dart';
-import 'package:instachatty/main.dart';
-import 'package:instachatty/model/User.dart';
-import 'package:instachatty/services/FirebaseHelper.dart';
-import 'package:instachatty/services/helper.dart';
+import 'package:remote_private_tutoring/constants.dart';
+import 'package:remote_private_tutoring/main.dart';
+import 'package:remote_private_tutoring/model/User.dart';
+import 'package:remote_private_tutoring/services/FirebaseHelper.dart';
+import 'package:remote_private_tutoring/services/helper.dart';
 
 class SettingsScreen extends StatefulWidget {
   final User user;

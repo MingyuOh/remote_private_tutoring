@@ -710,13 +710,13 @@
       "languageVersion": "2.7"
     },
     {
-      "name": "instachatty",
+      "name": "remote_private_tutoring",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2020-11-22T05:53:04.814299Z",
+  "generated": "2020-11-29T04:55:34.331083Z",
   "generator": "pub",
-  "generatorVersion": "2.10.1"
+  "generatorVersion": "2.10.4"
 }
