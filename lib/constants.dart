@@ -1,5 +1,10 @@
 library constants;
 
+// Login
+const KAKAO_CLIENT_KEY = '32b8163a175cce9a9db6a7eb7c53a801';
+const KAKAO_JAVASCRIPT_CLIENT_KEY = '83b33f0c933cc32b0416c82467ffbb9d';
+
+// Default
 const FINISHED_ON_BOARDING = 'finishedOnBoarding';
 const COLOR_ACCENT = 0xFF7693f8;
 const COLOR_PRIMARY_DARK = 0xFF003c94;

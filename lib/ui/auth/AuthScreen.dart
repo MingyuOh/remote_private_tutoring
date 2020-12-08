@@ -17,6 +17,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   bool _isKakaoTalkInstalled = false;
 
+  // 카카오톡 설치 여부 함수
   _initKakaoTalkInstalled() async{
     final installed = await isKakaoTalkInstalled();
     print('kakao Install : ' + installed.toString());
@@ -34,9 +35,10 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    KakaoContext.clientId = '32b8163a175cce9a9db6a7eb7c53a801';
-    KakaoContext.javascriptClientId = '83b33f0c933cc32b0416c82467ffbb9d';
+    KakaoContext.clientId = KAKAO_CLIENT_KEY;
+    KakaoContext.javascriptClientId = KAKAO_JAVASCRIPT_CLIENT_KEY;
 
+    // 카카오톡으로 로그인 했을 때 실제 유저 생성 함수
     _issueAccessToken(String authCode) async{
       try{
         var token = await AuthApi.instance.issueAccessToken(authCode);
@@ -48,6 +50,7 @@ class _AuthScreenState extends State<AuthScreen> {
       }
     }
 
+    // 카카오톡이 설치되지 않았을 때의 로그인 함수
     _loginWithKakao() async{
       try{
         var code = await AuthCodeClient.instance.request();
@@ -57,6 +60,7 @@ class _AuthScreenState extends State<AuthScreen> {
       }
     }
 
+    // 카카오톡이 설치되어있을 때의 로그인 함수
     _loginWithTalk() async{
       try{
         var code = await AuthCodeClient.instance.requestWithTalk();
