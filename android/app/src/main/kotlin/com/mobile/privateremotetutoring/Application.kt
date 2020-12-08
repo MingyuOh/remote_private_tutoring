@@ -1,4 +1,4 @@
-package io.instamobile.instachatty
+package com.mobile.privateremotetutoring
 
 import com.github.cloudwebrtc.flutter_callkeep.FlutterCallkeepPlugin
 import io.flutter.app.FlutterApplication

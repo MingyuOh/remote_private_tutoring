@@ -1,4 +1,4 @@
-package io.instamobile.instachatty
+package com.mobile.privateremotetutoring
 
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity

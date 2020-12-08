@@ -15,7 +15,6 @@ dependencies:
   progress_dialog: ^1.2.2
   provider: ^4.0.1
   url_launcher: ^5.4.11
-  intl: ^0.16.1
   cached_network_image: ^2.1.0+1
   uuid: ^2.1.0
   video_thumbnail: ^0.2.1
@@ -24,6 +23,7 @@ dependencies:
   video_player: ^0.11.0
   flutter_facebook_login: ^3.0.0
   kakao_flutter_sdk: ^0.5.2
+  intl: ^0.16.1
   http: ^0.12.1
   flutter_webrtc: ^0.3.3
   flutter_ringtone_player: ^2.0.0
@@ -48,6 +48,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
