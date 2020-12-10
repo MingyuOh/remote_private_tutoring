@@ -266,6 +266,12 @@
       "languageVersion": "2.2"
     },
     {
+      "name": "flutter_webview_plugin",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_webview_plugin-0.3.11",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "html",
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/html-0.14.0+4",
       "packageUri": "lib/",
@@ -716,7 +722,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2020-12-08T07:31:10.359928Z",
+  "generated": "2020-12-10T04:50:32.985236Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }

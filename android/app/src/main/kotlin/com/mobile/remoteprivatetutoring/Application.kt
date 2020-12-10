@@ -1,4 +1,4 @@
-package com.mobile.privateremotetutoring
+package com.mobile.remoteprivatetutoring
 
 import com.github.cloudwebrtc.flutter_callkeep.FlutterCallkeepPlugin
 import io.flutter.app.FlutterApplication

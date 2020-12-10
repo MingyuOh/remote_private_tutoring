@@ -40,7 +40,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.mobile.privateremotetutoring"
+        applicationId "com.mobile.remoteprivatetutoring"
         minSdkVersion 23
         multiDexEnabled = true
         targetSdkVersion 30

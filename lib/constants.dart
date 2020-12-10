@@ -2,14 +2,18 @@ library constants;
 
 // Login
 const KAKAO_CLIENT_KEY = '32b8163a175cce9a9db6a7eb7c53a801';
+const KAKAO_REST_API_KEY = 'ed6735c5116a56ad6d5916aacb69b50a';
 const KAKAO_JAVASCRIPT_CLIENT_KEY = '83b33f0c933cc32b0416c82467ffbb9d';
 
-// Default
-const FINISHED_ON_BOARDING = 'finishedOnBoarding';
+// Color
 const COLOR_ACCENT = 0xFF7693f8;
 const COLOR_PRIMARY_DARK = 0xFF003c94;
 const COLOR_PRIMARY = 0xFF69F0AE;
 const FACEBOOK_BUTTON_COLOR = 0xFF415893;
+const KAKAO_BUTTON_COLOR = 0xFFFFFF00;
+
+// Default
+const FINISHED_ON_BOARDING = 'finishedOnBoarding';
 const USERS = 'users';
 const SOCIAL_GRAPH = 'social_graph';
 const RECEIVED_FRIEND_REQUESTS = 'inbound_users';

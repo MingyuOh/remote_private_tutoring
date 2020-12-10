@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3cb82f6e-4260-49c4-8638-c84ad4cd2ac5" name="Default Changelist" comment="">
+    <list default="true" id="5d0bab48-e944-4f74-b5d3-532085290215" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/../.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/android.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/google-services.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/debug/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/com/mobile/privateremotetutoring/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/kotlin/com/mobile/remoteprivatetutoring/Application.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/com/mobile/privateremotetutoring/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/kotlin/com/mobile/remoteprivatetutoring/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/profile/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/profile/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/constants.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/ui/auth/AuthScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/ui/auth/AuthScreen.dart" afterDir="false" />
     </list>
@@ -17,14 +28,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1lMnucXtVUG9rjUiawQVx8OFVgC" />
+  <component name="ProjectId" id="1lPMQe8ySE1gPvlL4xFIymrMl35" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
@@ -35,11 +44,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3cb82f6e-4260-49c4-8638-c84ad4cd2ac5" name="Default Changelist" comment="" />
-      <created>1607416051246</created>
+      <changelist id="5d0bab48-e944-4f74-b5d3-532085290215" name="Default Changelist" comment="" />
+      <created>1607494257770</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1607416051246</updated>
+      <updated>1607494257770</updated>
     </task>
     <servers />
   </component>
