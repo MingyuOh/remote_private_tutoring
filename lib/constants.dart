@@ -30,4 +30,4 @@ const CALL_DATA = 'callData';
 const VOICE = 'voice';
 const VIDEO = 'video';
 const SERVER_KEY =
-    "AAAAeliTfEs:APA91bGve5fyExjSiUCB0oI09Br1yGUSb0tPHelAk7L0FUytHWGOMlBPexJubTwSjjJTaIlK7oto3jDevoj9c5Q4Qalk6QEtQ9Y3tYfTxHD7OrmPZuVJjVGGciPBJXThG9QHCZQqx9Id";
+    "AAAACTMFTYA:APA91bHaDKd147Nlw4iF9uEbYJ0l3NbyhotDkGF2C8ONJT6chSXgbuEoc3OO6u0MhPLkFQhie7-HsuIjltpPNTBzLDKfK1yVOPr8_fax__gPjCatkEM2J4CCuwl_bJ5TgakULO29iEaf";

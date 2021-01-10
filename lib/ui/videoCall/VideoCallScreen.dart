@@ -32,21 +32,21 @@ class VideoCallScreen extends StatefulWidget {
 
 class _VideoCallScreenState extends State<VideoCallScreen> {
   VideoCallsHandler _signaling;
-  RTCVideoRenderer _localRenderer = RTCVideoRenderer();
-  RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
+  RTCVideoRenderer _localRenderer = RTCVideoRenderer(); // 자신 화면
+  RTCVideoRenderer _remoteRenderer = RTCVideoRenderer(); // 상대방 화면
   bool _isCallActive = false, _micOn = true, _speakerOn = true;
   MediaStream _localStream;
 
   initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    if (!widget.isCaller) {
+    SystemChrome.setEnabledSystemUIOverlays([]); // 상태바와 네비게이션바 감추는 함수
+    if (!widget.isCaller) { // 전화를 받을 사람일 경우
       FlutterRingtonePlayer.playRingtone();
       print('_VideoCallScreenState.initState');
     }
-    initRenderers();
-    _connect();
-    if (!widget.isCaller) {
+    initRenderers(); // 원격화면 초기화
+    _connect(); //
+    if (!widget.isCaller) { // 전화를 받을 사람일 경우
       _signaling.listenForMessages();
 
       _signaling.startCountDown(context);

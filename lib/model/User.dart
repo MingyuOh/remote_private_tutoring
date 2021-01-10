@@ -15,7 +15,7 @@ class User with ChangeNotifier {
   String profilePictureURL = '';
   bool selected = false;
   String fcmToken = '';
-  String appIdentifier = 'Flutter Instachatty ${Platform.operatingSystem}';
+  String appIdentifier = 'RemotePrivateTutoring ${Platform.operatingSystem}';
 
   User(
       {this.email,

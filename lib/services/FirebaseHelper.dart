@@ -571,6 +571,7 @@ class FireStoreUtils {
     yield* chatModelStreamController.stream;
   }
 
+  // Cloud Firestore 내에 컬렉션 추가 함수
   Future<void> sendMessage(
       List<User> members,
       bool isGroup,
@@ -585,13 +586,15 @@ class FireStoreUtils {
     message.messageID = ref.documentID;
     ref.setData(message.toJson());
     await Future.forEach(members, (User element) async {
-      if (notify) if (element.settings.allowPushNotifications) {
-        await sendNotification(
-            element.fcmToken,
-            isGroup
-                ? conversationModel.name
-                : MyAppState.currentUser.fullName(),
-            message.content);
+      if (notify) {
+        if (element.settings.allowPushNotifications) {
+          await sendNotification(
+              element.fcmToken,
+              isGroup
+                  ? conversationModel.name
+                  : MyAppState.currentUser.fullName(),
+              message.content);
+        }
       }
     });
   }
@@ -784,6 +787,7 @@ sendNotification(String token, String title, String body) async {
 
 sendPayLoad(String token, {Map<String, dynamic> callData}) async {
   print('sendPayLoad $token');
+  // https://firebase.google.com/docs/cloud-messaging/http-server-ref - 문서 참조
   await http.post(
     'https://fcm.googleapis.com/fcm/send',
     headers: <String, String>{

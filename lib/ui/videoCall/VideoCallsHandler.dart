@@ -37,7 +37,7 @@ class VideoCallsHandler {
   var _peerConnections = new Map<String, RTCPeerConnection>();
   var _remoteCandidates = [];
   List<dynamic> _localCandidates = [];
-  StreamSubscription hangupSub;
+  StreamSubscription hangupSub; // StreamSubscription : 스트림과 이벤트의 연결고리, 이벤트에 변경이 생기면 처리한다
   MediaStream _localStream;
   List<MediaStream> _remoteStreams;
   SignalingStateCallback onStateChange;
@@ -45,7 +45,7 @@ class VideoCallsHandler {
   StreamStateCallback onAddRemoteStream;
   StreamStateCallback onRemoveRemoteStream;
   OtherEventCallback onPeersUpdate;
-  String _selfId = MyAppState.currentUser.userID;
+  String _selfId = MyAppState.currentUser.userID; // 현재 유저
   final bool isCaller;
   final HomeConversationModel homeConversationModel;
 
@@ -56,6 +56,7 @@ class VideoCallsHandler {
   VideoCallsHandler(
       {@required this.isCaller, @required this.homeConversationModel});
 
+  // ICE(Interactive Connectivity Establishment) 개념 참고
   final Map<String, dynamic> _iceServers = {
     'iceServers': [
       {'url': 'stun:stun.l.google.com:19302'},
@@ -249,7 +250,9 @@ class VideoCallsHandler {
 
   Future<RTCPeerConnection> _createPeerConnection(id) async {
     _localStream = await createStream();
+    // 통신 연결 변수 생성
     RTCPeerConnection pc = await createPeerConnection(_iceServers, _config);
+    // 자신의 스트림 추가
     pc.addStream(_localStream);
     pc.onIceCandidate = (RTCIceCandidate candidate) {
       _localCandidates.add(candidate.toMap());
@@ -438,13 +441,15 @@ class VideoCallsHandler {
         senderProfilePictureURL: MyAppState.currentUser.profilePictureURL,
         url: Url(mime: '', url: ''),
         videoThumbnail: '');
+
     if (await _checkChannelNullability(
         homeConversationModel.conversationModel)) {
       await _fireStoreUtils.sendMessage(
           homeConversationModel.members,
           homeConversationModel.isGroupChat,
           message,
-          homeConversationModel.conversationModel, false);
+          homeConversationModel.conversationModel,
+          false);
       homeConversationModel.conversationModel.lastMessageDate = Timestamp.now();
       homeConversationModel.conversationModel.lastMessage = message.content;
 
