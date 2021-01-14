@@ -448,8 +448,7 @@ class VideoCallsHandler {
           homeConversationModel.members,
           homeConversationModel.isGroupChat,
           message,
-          homeConversationModel.conversationModel,
-          false);
+          homeConversationModel.conversationModel, false);
       homeConversationModel.conversationModel.lastMessageDate = Timestamp.now();
       homeConversationModel.conversationModel.lastMessage = message.content;
 

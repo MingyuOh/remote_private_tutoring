@@ -586,8 +586,7 @@ class FireStoreUtils {
     message.messageID = ref.documentID;
     ref.setData(message.toJson());
     await Future.forEach(members, (User element) async {
-      if (notify) {
-        if (element.settings.allowPushNotifications) {
+      if (notify) if (element.settings.allowPushNotifications) {
           await sendNotification(
               element.fcmToken,
               isGroup
@@ -595,7 +594,6 @@ class FireStoreUtils {
                   : MyAppState.currentUser.fullName(),
               message.content);
         }
-      }
     });
   }
 

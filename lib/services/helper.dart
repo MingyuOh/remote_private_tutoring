@@ -213,7 +213,7 @@ bool isDarkMode(BuildContext context) {
 }
 
 skipNulls<Widget>(List<Widget> items) {
-  return items.removeWhere((item) => item == null);
+  return items..removeWhere((item) => item == null);
 }
 
 String updateTime(Timer timer) {

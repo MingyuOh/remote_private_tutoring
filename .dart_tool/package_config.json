@@ -2,6 +2,12 @@
   "configVersion": 2,
   "packages": [
     {
+      "name": "archive",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/archive-2.0.13",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "args",
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/args-1.6.0",
       "packageUri": "lib/",
@@ -33,9 +39,9 @@
     },
     {
       "name": "cached_network_image",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/cached_network_image-2.3.2+1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/cached_network_image-2.5.0",
       "packageUri": "lib/",
-      "languageVersion": "2.9"
+      "languageVersion": "2.10"
     },
     {
       "name": "callkeep",
@@ -213,7 +219,7 @@
     },
     {
       "name": "flutter_cache_manager",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_cache_manager-1.4.2",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_cache_manager-2.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.6"
     },
@@ -288,6 +294,12 @@
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/http_parser-3.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.3"
+    },
+    {
+      "name": "image",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/image-2.1.19",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
     },
     {
       "name": "image_picker",
@@ -722,7 +734,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2020-12-10T04:50:32.985236Z",
+  "generated": "2021-01-11T08:47:32.756081Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }
