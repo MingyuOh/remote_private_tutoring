@@ -10,6 +10,7 @@ import 'package:remote_private_tutoring/constants.dart';
 import 'package:remote_private_tutoring/model/HomeConversationModel.dart';
 import 'package:remote_private_tutoring/services/helper.dart';
 import 'package:remote_private_tutoring/ui/videoCall/VideoCallsHandler.dart';
+import 'package:remote_private_tutoring/model/ChatModel.dart';
 import 'package:wakelock/wakelock.dart';
 
 class VideoCallScreen extends StatefulWidget {
@@ -36,17 +37,21 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   RTCVideoRenderer _remoteRenderer = RTCVideoRenderer(); // 상대방 화면
   bool _isCallActive = false, _micOn = true, _speakerOn = true;
   MediaStream _localStream;
+  ChatModel chatModel;
+  String message = '이것은 화상통화에서 사용될 테스트 텍스트입니다.';
 
   initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIOverlays([]); // 상태바와 네비게이션바 감추는 함수
-    if (!widget.isCaller) { // 전화를 받을 사람일 경우
+    if (!widget.isCaller) {
+      // 전화를 받을 사람일 경우
       FlutterRingtonePlayer.playRingtone();
       print('_VideoCallScreenState.initState');
     }
     initRenderers(); // 원격화면 초기화
     _connect(); //
-    if (!widget.isCaller) { // 전화를 받을 사람일 경우
+    if (!widget.isCaller) {
+      // 전화를 받을 사람일 경우
       _signaling.listenForMessages();
 
       _signaling.startCountDown(context);
@@ -150,161 +155,350 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   Widget build(BuildContext context) {
     FocusScope.of(context).unfocus();
 
-    return Material(child: OrientationBuilder(builder: (context, orientation) {
-      return Container(
-        child: Stack(
-            children: skipNulls([
-          _isCallActive
-              ? Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: RTCVideoView(
-                      _remoteRenderer,
-                      mirror: true,
-                      objectFit:
-                          RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
+
+    return Material(
+        child: Container(
+          child: Column(
+            children: [
+              // 왼쪽 메뉴
+              Container(
+                width: 10.0,
+                height: double.infinity,
+                color: Colors.blueAccent,
+                child: Row(
+                  children: [
+                    // 화상 탭(아이콘 및 텍스트)
+                    Container(
+                      child: Center(
+                        child: InkWell(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                IconData(0xeab3, fontFamily: 'MaterialIcons'),
+                                color: Colors.white,
+                                size: 30.0,
+                              ),
+                              Text('화상',
+                                style: TextStyle(
+                                    fontSize: 10.0,
+                                    color: Colors.white),
+                              ),
+                          ],
+                          ),
+                        ),
+                      ),
                     ),
-                    decoration: BoxDecoration(color: Color(COLOR_PRIMARY)),
-                  ),
-                )
-              : null,
-          _isCallActive
-              ? null
-              : Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  decoration: new BoxDecoration(
-                    image: new DecorationImage(
-                      image: NetworkImage(widget.homeConversationModel.members
-                          .first.profilePictureURL),
-                      fit: BoxFit.cover,
+                    
+                    // 노트 탭(아이콘 및 텍스트)
+                    Container(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              IconData(0xe70a, fontFamily: 'MaterialIcons', matchTextDirection: true),
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                            Text('노트',
+                            style: TextStyle(
+                              fontSize: 10.0,
+                                color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  child: new BackdropFilter(
-                    filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                    child: new Container(
-                      decoration: new BoxDecoration(
-                          color: Colors.black.withOpacity(0.3)),
-                    ),
-                  ),
-                ),
-          _isCallActive
-              ? null
-              : Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical:
-                              orientation == Orientation.portrait ? 80 : 15),
-                      child: SizedBox(width: double.infinity),
-                    ),
-                    displayCircleImage(
-                        widget.homeConversationModel.members.first
-                            .profilePictureURL,
-                        75,
-                        true),
-                    SizedBox(height: 10),
-                    Text(
-                      widget.isCaller
-                          ? 'videoCallingName'.tr(args: [
-                              '${widget.homeConversationModel.members.first.fullName()}'
-                            ])
-                          : 'isVideoCalling'.tr(args: [
-                              '${widget.homeConversationModel.members.first.fullName()}'
-                            ]),
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
-                    )
                   ],
                 ),
-          _isCallActive
-              ? Positioned.directional(
-                  textDirection: Directionality.of(context),
-                  start: 20.0,
-                  top: 20.0,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    color: Colors.black,
-                    child: Container(
-                        width:
-                        orientation == Orientation.portrait ? 90.0 : 120.0,
-                        height:
-                        orientation == Orientation.portrait ? 120.0 : 90.0,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(25),
-                            child: RTCVideoView(_localRenderer, mirror: true,
-                              objectFit: RTCVideoViewObjectFit
-                                  .RTCVideoViewObjectFitCover,
-                            ))),
-                  ),
-                )
-              : null,
-          Positioned(
-            bottom: 40,
-            left: 16,
-            right: 16,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: skipNulls(
-                [
-                  widget.isCaller || _isCallActive
-                      ? null
-                      : FloatingActionButton(
-                          backgroundColor: Colors.green,
-                          heroTag: 'answerFAB',
-                          child: Icon(Icons.call),
-                          onPressed: () {
-                            FlutterRingtonePlayer.stop();
-                            _signaling.countdownTimer.cancel();
-                            _signaling.acceptCall(
-                                widget.sessionDescription, widget.sessionType);
-                            setState(() {
-                              _isCallActive = true;
-                            });
-                          }),
-                  _isCallActive
-                      ? FloatingActionButton(
-                          backgroundColor: Color(COLOR_ACCENT),
-                          heroTag: 'speakerFAB',
-                          child: Icon(
-                              _speakerOn ? Icons.volume_up : Icons.volume_off),
-                          onPressed: _speakerToggle,
-                        )
-                      : null,
-                  FloatingActionButton(
-                    heroTag: 'hangupFAB',
-                    onPressed: () => _hangUp(),
-                    tooltip: 'hangup'.tr(),
-                    child: Icon(Icons.call_end),
-                    backgroundColor: Colors.pink,
-                  ),
-                  _isCallActive
-                      ? FloatingActionButton(
-                          backgroundColor: Color(COLOR_ACCENT),
-                          heroTag: 'micFAB',
-                          child: Icon(_micOn ? Icons.mic : Icons.mic_off),
-                          onPressed: _micToggle,
-                        )
-                      : null
-                ],
               ),
-            ),
+
+
+              Stack(
+                      children: skipNulls([
+                    // ================== Remote Renderer ==================
+                    // ======================= Start =======================
+                    _isCallActive
+                        ? Positioned(
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            child: Container(
+                              margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              child: RTCVideoView(
+                                _remoteRenderer,
+                                mirror: true,
+                                objectFit:
+                                    RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                              ),
+                              decoration: BoxDecoration(color: Color(COLOR_PRIMARY)),
+                            ),
+                          )
+                        : null,
+                    // ======================= End =======================
+                    _isCallActive
+                        ? null
+                        : Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            decoration: new BoxDecoration(
+                              image: new DecorationImage(
+                                image: NetworkImage(widget.homeConversationModel.members
+                                    .first.profilePictureURL),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            child: new BackdropFilter(
+                              filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                              child: new Container(
+                                decoration: new BoxDecoration(
+                                    color: Colors.black.withOpacity(0.3)),
+                              ),
+                            ),
+                          ),
+                    _isCallActive
+                        ? null
+                        : Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical:
+                                        15),//orientation == Orientation.portrait ? 80 : 15),
+                                child: SizedBox(width: double.infinity),
+                              ),
+                              displayCircleImage(
+                                  // 전화걸 때 상대방 프로필 이미지
+                                  widget.homeConversationModel.members.first
+                                      .profilePictureURL,
+                                  75,
+                                  true),
+                              SizedBox(height: 10),
+                              Text(
+                                // 이름
+                                widget.isCaller
+                                    ? 'videoCallingName'.tr(args: [
+                                        '${widget.homeConversationModel.members.first.fullName()}'
+                                      ])
+                                    : 'isVideoCalling'.tr(args: [
+                                        '${widget.homeConversationModel.members.first.fullName()}'
+                                      ]),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, color: Colors.white),
+                              )
+                            ],
+                          ),
+                    // ================== Local Renderer ===================
+                    // ======================= Start =======================
+                    _isCallActive
+                        ? Positioned.directional(
+                            textDirection: Directionality.of(context),
+                            start: 20.0,
+                            top: 20.0,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              color: Colors.black,
+                              child: Container(
+                                width: 120.0,
+                                  height: 90.0,
+                                  /*width: orientation == Orientation.portrait
+                                      ? 90.0
+                                      : 120.0,
+                                  height: orientation == Orientation.portrait
+                                      ? 120.0
+                                      : 90.0,*/
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(25),
+                                      child: RTCVideoView(
+                                        _localRenderer,
+                                        mirror: true,
+                                        objectFit: RTCVideoViewObjectFit
+                                            .RTCVideoViewObjectFitCover,
+                                      ))),
+                            ),
+                          )
+                        : null,
+                    // ======================= End =======================
+                    Positioned(
+                      bottom: 40,
+                      left: 16,
+                      right: 16,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: skipNulls(
+                          [
+                            widget.isCaller || _isCallActive
+                                ? null
+                                : FloatingActionButton(
+                                    backgroundColor: Colors.green,
+                                    heroTag: 'answerFAB',
+                                    child: Icon(Icons.call),
+                                    onPressed: () {
+                                      FlutterRingtonePlayer.stop();
+                                      _signaling.countdownTimer.cancel();
+                                      _signaling.acceptCall(widget.sessionDescription,
+                                          widget.sessionType);
+                                      setState(() {
+                                        _isCallActive = true;
+                                      });
+                                    }),
+                            _isCallActive
+                                ? FloatingActionButton(
+                                    backgroundColor: Color(COLOR_ACCENT),
+                                    heroTag: 'speakerFAB',
+                                    child: Icon(_speakerOn
+                                        ? Icons.volume_up
+                                        : Icons.volume_off),
+                                    onPressed: _speakerToggle,
+                                  )
+                                : null,
+                            FloatingActionButton(
+                              heroTag: 'hangupFAB',
+                              onPressed: () => _hangUp(),
+                              tooltip: 'hangup'.tr(),
+                              child: Icon(Icons.call_end),
+                              backgroundColor: Colors.pink,
+                            ),
+                            _isCallActive
+                                ? FloatingActionButton(
+                                    backgroundColor: Color(COLOR_ACCENT),
+                                    heroTag: 'micFAB',
+                                    child: Icon(_micOn ? Icons.mic : Icons.mic_off),
+                                    onPressed: _micToggle,
+                                  )
+                                : null
+                          ],
+                        ),
+                      ),
+                    ),
+                  ])),
+            ],
           ),
-        ])),
-      );
-    }));
+
+              /*// 채팅 - 여기서부터 ChatScreen Code Load
+              Container(
+                  child: _isCallActive
+                      ? Column(children: [
+                    Flexible(
+                      child: Container(
+                        color: Colors.black26,
+                        width: double.infinity,
+                        height: 50.0,
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.camera_alt,
+                              color: Color(COLOR_PRIMARY),
+                            ),
+                          ),
+                          Expanded(
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 2.0, right: 2),
+                                  child: Container(
+                                    padding: EdgeInsets.all(2),
+                                    decoration: ShapeDecoration(
+                                      shape: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(360),
+                                          ),
+                                          borderSide: BorderSide(
+                                              style: BorderStyle.none)),
+                                      color: isDarkMode(context)
+                                          ? Colors.grey[700]
+                                          : Colors.grey.shade200,
+                                    ),
+                                    child: Row(
+                                      children: <Widget>[
+                                        InkWell(
+                                          child: Icon(Icons.mic,
+                                              color: Color(COLOR_PRIMARY)),
+                                        ),
+                                        Expanded(
+                                          child: TextField(
+                                            onChanged: (s) {
+                                              setState(() {});
+                                            },
+                                            textAlignVertical:
+                                            TextAlignVertical.center,
+                                            decoration: InputDecoration(
+                                              isDense: true,
+                                              contentPadding:
+                                              EdgeInsets.symmetric(
+                                                  vertical: 8,
+                                                  horizontal: 8),
+                                              hintText: 'startTyping'.tr(),
+                                              hintStyle: TextStyle(
+                                                  color: Colors.grey[400]),
+                                              focusedBorder:
+                                              OutlineInputBorder(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                    Radius.circular(
+                                                        360),
+                                                  ),
+                                                  borderSide: BorderSide(
+                                                      style: BorderStyle
+                                                          .none)),
+                                              enabledBorder:
+                                              OutlineInputBorder(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                    Radius.circular(
+                                                        360),
+                                                  ),
+                                                  borderSide: BorderSide(
+                                                      style: BorderStyle
+                                                          .none)),
+                                            ),
+                                            textCapitalization:
+                                            TextCapitalization
+                                                .sentences,
+                                            maxLines: 5,
+                                            minLines: 1,
+                                            keyboardType:
+                                            TextInputType.multiline,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ))),
+                          IconButton(
+                            icon: Icon(
+                              Icons.send,
+                              color: Color(COLOR_PRIMARY),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ])
+                      : null
+              ),*/
+        ),
+    );
   }
 
+  // 전화 끊을 때 실행되는 함수
   _hangUp() {
     if (_signaling != null) {
       _signaling.countdownTimer.cancel();
@@ -317,6 +511,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     Navigator.pop(context);
   }
 
+  // 마이크 on/off
   _micToggle() {
     setState(() {
       _micOn = _micOn ? false : true;
@@ -324,6 +519,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     });
   }
 
+  // 스피커 on/off
   _speakerToggle() {
     setState(() {
       _speakerOn = _speakerOn ? false : true;

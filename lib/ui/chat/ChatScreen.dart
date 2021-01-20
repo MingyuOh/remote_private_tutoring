@@ -24,6 +24,7 @@ import 'package:remote_private_tutoring/ui/chat/PlayerWidget.dart';
 import 'package:remote_private_tutoring/ui/fullScreenImageViewer/FullScreenImageViewer.dart';
 import 'package:remote_private_tutoring/ui/fullScreenVideoViewer/FullScreenVideoViewer.dart';
 import 'package:remote_private_tutoring/ui/videoCall/VideoCallScreen.dart';
+import 'package:remote_private_tutoring/ui/videoCall/VideoCallScreenDev.dart';
 import 'package:remote_private_tutoring/ui/videoCallsGroupChat/VideoCallsGroupScreen.dart';
 import 'package:remote_private_tutoring/ui/voiceCall/VoiceCallScreen.dart';
 import 'package:remote_private_tutoring/ui/voiceCallsGroupChat/VoiceCallsGroupScreen.dart';
@@ -138,7 +139,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   ))
                   : push(
                   context,
-                  VideoCallScreen(
+                  //VideoCallScreen
+                  VideoCallScreenDev(
                     isCaller: true,
                     homeConversationModel: homeConversationModel,
                     sessionDescription: null,
