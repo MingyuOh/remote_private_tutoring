@@ -40,7 +40,7 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
     SystemChrome.setEnabledSystemUIOverlays([]);
     if (!widget.isCaller) {
       FlutterRingtonePlayer.playRingtone();
-      print('_VideoCallScreenState.initState');
+      print('_VoiceCallScreenState.initState');
     }
     _connect();
     if (!widget.isCaller) {

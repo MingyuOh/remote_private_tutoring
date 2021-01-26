@@ -248,9 +248,25 @@ class VideoCallsHandler {
     return stream;
   }
 
+  Future<MediaStream> createDisplayStream() async {
+    final Map<String, dynamic> mediaConstraints = {
+      'audio': true,
+      'video': {
+        'cursor': 'always',
+        'displaySurface': 'application',
+      },
+    };
+
+    MediaStream stream = await MediaDevices.getDisplayMedia(mediaConstraints);
+    if (this.onLocalStream != null) {
+      this.onLocalStream(stream);
+    }
+    return stream;
+  }
+
   Future<RTCPeerConnection> _createPeerConnection(id) async {
     _localStream = await createStream();
-    // 통신 연결 변수 생성
+    // 통신 연결
     RTCPeerConnection pc = await createPeerConnection(_iceServers, _config);
     // 자신의 스트림 추가
     pc.addStream(_localStream);

@@ -12,6 +12,12 @@ const COLOR_PRIMARY = 0xFF69F0AE;
 const FACEBOOK_BUTTON_COLOR = 0xFF415893;
 const KAKAO_BUTTON_COLOR = 0xFFFFFF00;
 
+// VideoScreen
+const VIDEO_SCREEN_FLEX = 12;
+const CHAT_SCREEN_FLEX = 4;
+const VIDEO_SCREEN_TOP_FLEX = 10;
+const VIDEO_SCREEN_BOTTOM_FLEX = 2;
+
 // Default
 const FINISHED_ON_BOARDING = 'finishedOnBoarding';
 const USERS = 'users';

@@ -192,7 +192,7 @@ class _VideoCallScreenState extends State<VideoCallScreenDev> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Icon(
-                                IconData(0xeab3, fontFamily: 'MaterialIcons'),
+                                IconData(0xeacb, fontFamily: 'MaterialIcons'),
                                 color: Colors.white,
                                 size: 30.0,
                               ),

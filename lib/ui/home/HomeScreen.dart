@@ -15,7 +15,8 @@ import 'package:remote_private_tutoring/ui/conversations/ConversationsScreen.dar
 import 'package:remote_private_tutoring/ui/createGroup/CreateGroupScreen.dart';
 import 'package:remote_private_tutoring/ui/profile/ProfileScreen.dart';
 import 'package:remote_private_tutoring/ui/search/SearchScreen.dart';
-import 'package:remote_private_tutoring/ui/videoCall/VideoCallScreen.dart';
+//import 'package:remote_private_tutoring/ui/videoCall/VideoCallScreen.dart';
+import 'package:remote_private_tutoring/ui/videoCall/VideoCallScreenStackVer.dart';
 import 'package:remote_private_tutoring/ui/videoCallsGroupChat/VideoCallsGroupScreen.dart';
 import 'package:remote_private_tutoring/ui/voiceCall/VoiceCallScreen.dart';
 import 'package:remote_private_tutoring/ui/voiceCallsGroupChat/VoiceCallsGroupScreen.dart';
@@ -250,7 +251,8 @@ class _HomeState extends State<HomeScreen> {
               } else {
                 push(
                   context,
-                  VideoCallScreen(
+                  //VidoeCallScreen
+                  VideoCallScreenStackVer(
                       homeConversationModel: HomeConversationModel(
                           isGroupChat: false,
                           conversationModel: null,
