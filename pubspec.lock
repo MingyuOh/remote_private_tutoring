@@ -265,6 +265,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  flutter_foreground_plugin:
+    dependency: "direct main"
+    description:
+      name: flutter_foreground_plugin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -308,13 +315,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.3"
-  flutter_webview_plugin:
-    dependency: "direct main"
-    description:
-      name: flutter_webview_plugin
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.11"
   html:
     dependency: transitive
     description:

@@ -230,6 +230,12 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "flutter_foreground_plugin",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_foreground_plugin-0.6.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "flutter_localizations",
       "rootUri": "file:///C:/src/flutter/packages/flutter_localizations",
       "packageUri": "lib/",
@@ -270,12 +276,6 @@
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_webrtc-0.3.3",
       "packageUri": "lib/",
       "languageVersion": "2.2"
-    },
-    {
-      "name": "flutter_webview_plugin",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_webview_plugin-0.3.11",
-      "packageUri": "lib/",
-      "languageVersion": "2.0"
     },
     {
       "name": "html",
@@ -734,7 +734,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2021-01-24T07:13:50.841277Z",
+  "generated": "2021-01-29T13:09:18.080380Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }

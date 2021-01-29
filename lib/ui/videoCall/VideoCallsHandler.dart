@@ -76,7 +76,9 @@ class VideoCallsHandler {
   final Map<String, dynamic> _config = {
     'mandatory': {},
     'optional': [
-      {'DtlsSrtpKeyAgreement': true},
+      {'DtlsSrtpKeyAgreement': true,
+        'sdpSemantics': 'uinified-plan',
+      },
     ],
   };
 
@@ -226,6 +228,24 @@ class VideoCallsHandler {
     }
   }
 
+  Future<void> replaceVideoStreamTrack({MediaStream stream, MediaStreamTrack mediaStreamTrack}) async {
+      _peerConnections.forEach((key, pc) async {
+        pc.onAddTrack(stream, mediaStreamTrack);
+        RTCSessionDescription rtcSessionDescription = await pc.createOffer(_constraints);
+        await pc.setLocalDescription(rtcSessionDescription);
+        //sdp = rtcSessionDescription.sdp;
+      });
+
+    /*_peerConnections.forEach((key, pc) async {
+      await pc.addTrack(mediaStreamTrack, stream);
+
+      RTCSessionDescription rtcSessionDescription = await pc.createOffer(_constraints);
+      await pc.setLocalDescription(rtcSessionDescription);
+      //sdp = rtcSessionDescription.sdp;
+    });*/
+    print("Replace videoStreamTrack done");
+  }
+
   Future<MediaStream> createStream() async {
     final Map<String, dynamic> mediaConstraints = {
       'audio': true,
@@ -251,10 +271,11 @@ class VideoCallsHandler {
   Future<MediaStream> createDisplayStream() async {
     final Map<String, dynamic> mediaConstraints = {
       'audio': true,
-      'video': {
+      'video': true
+      /*'video': {
         'cursor': 'always',
         'displaySurface': 'application',
-      },
+      },*/
     };
 
     MediaStream stream = await MediaDevices.getDisplayMedia(mediaConstraints);
@@ -309,7 +330,7 @@ class VideoCallsHandler {
     try {
       RTCSessionDescription s = await pc.createAnswer(_constraints);
       pc.setLocalDescription(s);
-      _sendAnswer('answer', {
+      await _sendAnswer('answer', {
         'to': id,
         'from': _selfId,
         'description': {'sdp': s.sdp, 'type': s.type},
@@ -400,7 +421,7 @@ class VideoCallsHandler {
     }
   }
 
-  void _sendAnswer(String event, Map<String, dynamic> data) async {
+  _sendAnswer(String event, Map<String, dynamic> data) async {
     var request = new Map<String, dynamic>();
     request["type"] = event;
     request["data"] = data;

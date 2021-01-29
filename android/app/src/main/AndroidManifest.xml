@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -97,5 +98,8 @@
                 <action android:name="android.telecom.ConnectionService" />
             </intent-filter>
         </service>
+
+        <service android:name="changjoopark.com.flutter_foreground_plugin.FlutterForegroundService"/>
+
     </application>
 </manifest>

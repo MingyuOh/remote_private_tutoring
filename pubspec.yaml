@@ -40,7 +40,7 @@ dependencies:
   json_annotation: ^3.1.1
   package_info: ^0.4.3+2
   platform: ^2.2.1
-  flutter_webview_plugin: ^0.3.11
+  flutter_foreground_plugin: ^0.6.0
 
   flutter:
     sdk: flutter

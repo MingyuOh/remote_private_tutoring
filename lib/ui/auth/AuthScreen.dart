@@ -13,7 +13,6 @@ import 'package:remote_private_tutoring/model/User.dart';
 import 'package:remote_private_tutoring/services/helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:remote_private_tutoring/services/FirebaseHelper.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:kakao_flutter_sdk/user.dart' as kakaoUser;
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -180,35 +179,7 @@ class _AuthScreenState extends State<AuthScreen> {
               onPressed:
                   _isKakaoTalkInstalled ? _loginWithTalk : _loginWithKakao,
             ),
-            // 카카오톡 로그인 - 웹 뷰 방식
-            AuthButtonWidget(
-                title: '카카오톡으로 로그인(웹 뷰 방식)',
-                buttonColor: KAKAO_BUTTON_COLOR,
-                image: 'assets/images/facebook_logo.png',
-                onPressed: () async {
-                  const String _REDIRECT = "http://172.30.1.254:3000/auth";
-                  final _host = "https://kauth.kakao.com";
-                  final _url =
-                      "/oauth/authorize?client_id=$KAKAO_REST_API_KEY&redirect_uri=$_REDIRECT&response_type=code";
-                  await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => WebviewScaffold(
-                        appBar: AppBar(),
-                        withJavascript: true,
-                        url: _host + _url,
-                        javascriptChannels: Set.from([
-                          JavascriptChannel(
-                              name: "james",
-                              onMessageReceived: (JavascriptMessage result) {
-                                if (result.message != null) {
-                                  print('success!');
-                                }
-                              }),
-                        ]),
-                      ),
-                    ),
-                  );
-                }),
+
             // 페이스북 로그인
             AuthButtonWidget(
                 title: 'facebookLogin',

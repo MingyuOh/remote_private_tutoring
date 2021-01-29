@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'dart:core';
+import 'dart:io' show Platform;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,7 @@ import 'package:remote_private_tutoring/constants.dart';
 import 'package:remote_private_tutoring/model/HomeConversationModel.dart';
 import 'package:remote_private_tutoring/services/helper.dart';
 import 'package:remote_private_tutoring/ui/videoCall/VideoCallsHandler.dart';
+import 'package:flutter_foreground_plugin/flutter_foreground_plugin.dart';
 import 'package:wakelock/wakelock.dart';
 
 class VideoCallScreenStackVer extends StatefulWidget {
@@ -48,6 +50,12 @@ class _VideoCallScreenState extends State<VideoCallScreenStackVer> {
     SystemChrome.setEnabledSystemUIOverlays([]); // 상태바와 네비게이션바 감추는 함수
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+
+    if (Platform.isAndroid == true) {
+      //WidgetsFlutterBinding.ensureInitialized();
+      print("Start Foreground Service");
+      startForegroundService();
+    }
 
     if (!widget.isCaller) {
       // 전화를 받을 사람일 경우
@@ -90,6 +98,28 @@ class _VideoCallScreenState extends State<VideoCallScreenStackVer> {
     }
     super.dispose();
     Wakelock.disable();
+  }
+
+  Future<bool> startForegroundService() async {
+    await FlutterForegroundPlugin.setServiceMethodInterval(seconds: 5);
+    await FlutterForegroundPlugin.setServiceMethod(globalForegroundService);
+    await FlutterForegroundPlugin.startForegroundService(
+      holdWakeLock: false,
+      onStarted: () {
+        print('Foreground on Started');
+      },
+      onStopped: () {
+        print('Foreground on Stopped');
+      },
+      title: 'Tcamera',
+      content: 'Tcamera sharing your screen.',
+      iconName: 'ic_stat_mobile_screen_share',
+    );
+    return true;
+  }
+
+  void globalForegroundService() {
+    debugPrint('current datetime is ${DateTime.now()}');
   }
 
   void _connect() async {
@@ -229,18 +259,24 @@ class _VideoCallScreenState extends State<VideoCallScreenStackVer> {
                                 child: InkWell(
                                   onTap: () async {
                                     _isRemoteActive = false;
+                                    print("Start switched screen sharing ");
                                     // https://github.com/flutter-webrtc/flutter-webrtc/blob/master/example/lib/src/get_display_media_sample.dart
                                     if(_noteOn == false) {
                                       try {
-                                        _localStream.removeTrack(
-                                            _localStream.getVideoTracks()[0]);
-                                        dynamic stream =
-                                        _signaling.createDisplayStream();
-                                        _localStream.addTrack(stream);
-                                        _localStream.getVideoTracks()[0].enabled = true;
+                                        _localStream.removeTrack(_localStream.getVideoTracks()[0]);
+                                        final Map<String, dynamic> mediaConstraints = {
+                                          'audio': true,
+                                          'video': true
+                                        };
+                                        dynamic stream = await MediaDevices.getDisplayMedia(mediaConstraints);
+
+                                        await _signaling.replaceVideoStreamTrack(stream: stream, mediaStreamTrack: stream.getVideoTracks()[0]);
+                                        _localStream = stream;
+                                        //_localStream.addTrack(stream.getVideoTracks()[0]);
                                         _localRenderer.srcObject = _localStream;
+                                        print("Switched screen sharing done");
                                       } catch (e) {
-                                        print(e.toString());
+                                        print("click note menu error: " + e.toString());
                                       }
                                     }
                                     _noteOn = true;
@@ -274,8 +310,7 @@ class _VideoCallScreenState extends State<VideoCallScreenStackVer> {
                     // 화상화면
                     Expanded(
                       flex: _chatOn
-                          ? VIDEO_SCREEN_FLEX
-                          : VIDEO_SCREEN_FLEX - CHAT_SCREEN_FLEX,
+                          ? VIDEO_SCREEN_FLEX : VIDEO_SCREEN_FLEX - CHAT_SCREEN_FLEX,
                       child: Column(
                         children: [
                           Expanded(
@@ -311,14 +346,15 @@ class _VideoCallScreenState extends State<VideoCallScreenStackVer> {
                                       child: Container(
                                         margin: EdgeInsets.fromLTRB(
                                             0.0, 0.0, 0.0, 0.0),
-                                        child: Center(
+                                        child: RTCVideoView(_localRenderer),
+                                        /*Center(
                                           child: Text(
                                             'Note',
                                             style: TextStyle(
                                                 fontSize: 50.0,
                                                 color: Colors.black),
                                           ),
-                                        ),
+                                        ),*/
                                         decoration:
                                             BoxDecoration(color: Colors.white),
                                       ),
@@ -327,7 +363,7 @@ class _VideoCallScreenState extends State<VideoCallScreenStackVer> {
 
                               // ================== Local Renderer ===================
                               // ======================= Start =======================
-                              _isRemoteActive // 통화 중이면서 화상통화 메뉴일 경우
+                              _isRemoteActive
                                   ? SmallVideoScreen(renderer: _localRenderer)
                                   : SmallVideoScreen(renderer: _remoteRenderer)
                               // ======================= End =======================
@@ -661,13 +697,15 @@ class SmallVideoScreen extends StatelessWidget {
         child: Container(
             width: 140.0,
             height: 140.0,
-            child: ClipRRect(
+            child: (renderer != null) ? ClipRRect(
                 borderRadius: BorderRadius.circular(25),
                 child: RTCVideoView(
                   renderer,
                   mirror: true,
                   objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-                ))),
+                ))
+                : Container()
+        ),
       ),
     );
   }
