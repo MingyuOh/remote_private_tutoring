@@ -48,6 +48,7 @@ class VideoCallsHandler {
   String _selfId = MyAppState.currentUser.userID; // 현재 유저
   final bool isCaller;
   final HomeConversationModel homeConversationModel;
+  bool _isTest = false;
 
   FireStoreUtils _fireStoreUtils = FireStoreUtils();
 
@@ -228,21 +229,17 @@ class VideoCallsHandler {
     }
   }
 
-  Future<void> replaceVideoStreamTrack({MediaStream stream, MediaStreamTrack mediaStreamTrack}) async {
-      _peerConnections.forEach((key, pc) async {
-        pc.onAddTrack(stream, mediaStreamTrack);
-        RTCSessionDescription rtcSessionDescription = await pc.createOffer(_constraints);
-        await pc.setLocalDescription(rtcSessionDescription);
-        //sdp = rtcSessionDescription.sdp;
+  Future<void> replaceVideoStreamTrack({String token, String id,
+    BuildContext context, MediaStream stream, MediaStreamTrack mediaStreamTrack}) async {
+      _peerConnections.forEach((key, pc) {
+        pc.onRenegotiationNeeded = () async {
+            await pc.removeStream(_localStream);
+            await pc.addStream(stream);
+            _isTest = true;
+            await _createOffer(token, id, pc, context);
+        };
       });
 
-    /*_peerConnections.forEach((key, pc) async {
-      await pc.addTrack(mediaStreamTrack, stream);
-
-      RTCSessionDescription rtcSessionDescription = await pc.createOffer(_constraints);
-      await pc.setLocalDescription(rtcSessionDescription);
-      //sdp = rtcSessionDescription.sdp;
-    });*/
     print("Replace videoStreamTrack done");
   }
 
@@ -368,10 +365,13 @@ class VideoCallsHandler {
             .collection(CALL_DATA)
             .document(_selfId)
             .setData(request);
-        updateChat(context);
-        sendFCMNotificationForCalls(request, token);
+        if(_isTest == false) {
+          updateChat(context);
+          sendFCMNotificationForCalls(request, token);
+        }
       } else {
-        showAlertDialog(context, 'call'.tr(), 'userHasAnOnGoingCall'.tr());
+        if(_isTest == false)
+          showAlertDialog(context, 'call'.tr(), 'userHasAnOnGoingCall'.tr());
       }
     });
   }

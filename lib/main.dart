@@ -18,11 +18,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'model/User.dart';
 import 'ui/auth/AuthScreen.dart';
 import 'ui/onBoarding/OnBoardingScreen.dart';
+import 'package:flutter_foreground_plugin/flutter_foreground_plugin.dart';
+import 'dart:io';
 
 final FlutterCallkeep callKeep = FlutterCallkeep();
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  //WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isAndroid == true) {
+    WidgetsFlutterBinding.ensureInitialized();
+    print("Start Foreground Service");
+    startForegroundService();
+  }
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en'), Locale('ar')],
@@ -32,6 +39,28 @@ void main() async {
         useOnlyLangCode: true,
         child: MyApp()),
   );
+}
+
+Future<bool> startForegroundService() async {
+  await FlutterForegroundPlugin.setServiceMethodInterval(seconds: 5);
+  await FlutterForegroundPlugin.setServiceMethod(globalForegroundService);
+  await FlutterForegroundPlugin.startForegroundService(
+    holdWakeLock: false,
+    onStarted: () {
+      print('Foreground on Started');
+    },
+    onStopped: () {
+      print('Foreground on Stopped');
+    },
+    title: 'Tcamera',
+    content: 'Tcamera sharing your screen.',
+    iconName: 'ic_stat_mobile_screen_share',
+  );
+  return true;
+}
+
+void globalForegroundService() {
+  debugPrint('current datetime is ${DateTime.now()}');
 }
 
 class MyApp extends StatefulWidget {
@@ -47,6 +76,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Color(COLOR_PRIMARY_DARK)));
+
     return MaterialApp(
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
@@ -121,6 +151,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void dispose() {
     tokenStream.cancel();
     WidgetsBinding.instance.removeObserver(this);
+    FlutterForegroundPlugin.stopForegroundService();
     super.dispose();
   }
 

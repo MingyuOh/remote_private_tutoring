@@ -12,7 +12,7 @@ import 'package:remote_private_tutoring/constants.dart';
 import 'package:remote_private_tutoring/model/HomeConversationModel.dart';
 import 'package:remote_private_tutoring/services/helper.dart';
 import 'package:remote_private_tutoring/ui/videoCall/VideoCallsHandler.dart';
-import 'package:flutter_foreground_plugin/flutter_foreground_plugin.dart';
+//import 'package:flutter_foreground_plugin/flutter_foreground_plugin.dart';
 import 'package:wakelock/wakelock.dart';
 
 class VideoCallScreenStackVer extends StatefulWidget {
@@ -51,11 +51,11 @@ class _VideoCallScreenState extends State<VideoCallScreenStackVer> {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
-    if (Platform.isAndroid == true) {
+    /*if (Platform.isAndroid == true) {
       //WidgetsFlutterBinding.ensureInitialized();
       print("Start Foreground Service");
       startForegroundService();
-    }
+    }*/
 
     if (!widget.isCaller) {
       // 전화를 받을 사람일 경우
@@ -100,7 +100,7 @@ class _VideoCallScreenState extends State<VideoCallScreenStackVer> {
     Wakelock.disable();
   }
 
-  Future<bool> startForegroundService() async {
+  /*Future<bool> startForegroundService() async {
     await FlutterForegroundPlugin.setServiceMethodInterval(seconds: 5);
     await FlutterForegroundPlugin.setServiceMethod(globalForegroundService);
     await FlutterForegroundPlugin.startForegroundService(
@@ -120,7 +120,7 @@ class _VideoCallScreenState extends State<VideoCallScreenStackVer> {
 
   void globalForegroundService() {
     debugPrint('current datetime is ${DateTime.now()}');
-  }
+  }*/
 
   void _connect() async {
     if (_signaling == null) {
@@ -268,13 +268,16 @@ class _VideoCallScreenState extends State<VideoCallScreenStackVer> {
                                           'audio': true,
                                           'video': true
                                         };
-                                        dynamic stream = await MediaDevices.getDisplayMedia(mediaConstraints);
+                                        var stream = await MediaDevices.getDisplayMedia(mediaConstraints);
+                                        stream.addTrack(_localStream.getAudioTracks()[0]);
 
-                                        await _signaling.replaceVideoStreamTrack(stream: stream, mediaStreamTrack: stream.getVideoTracks()[0]);
+                                        await _signaling.replaceVideoStreamTrack(token: widget.homeConversationModel.members.first.fcmToken,
+                                            id: widget.homeConversationModel.members.first.userID,
+                                            context: context,
+                                            stream: stream, mediaStreamTrack: stream.getVideoTracks()[0]);
                                         _localStream = stream;
                                         //_localStream.addTrack(stream.getVideoTracks()[0]);
                                         _localRenderer.srcObject = _localStream;
-                                        print("Switched screen sharing done");
                                       } catch (e) {
                                         print("click note menu error: " + e.toString());
                                       }
