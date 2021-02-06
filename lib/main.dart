@@ -41,6 +41,7 @@ void main() async {
   );
 }
 
+
 Future<bool> startForegroundService() async {
   await FlutterForegroundPlugin.setServiceMethodInterval(seconds: 5);
   await FlutterForegroundPlugin.setServiceMethod(globalForegroundService);

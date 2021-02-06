@@ -22,10 +22,9 @@ dependencies:
   photo_view: ^0.10.2
   video_player: ^0.11.0
   flutter_facebook_login: ^3.0.0
-  kakao_flutter_sdk: ^0.5.2
   intl: ^0.16.1
   http: ^0.12.1
-  flutter_webrtc: ^0.3.3
+  flutter_webrtc: ^0.5.8
   flutter_ringtone_player: ^2.0.0
   wakelock: ^0.2.0+1
   firebase_messaging: ^6.0.16
@@ -40,7 +39,8 @@ dependencies:
   json_annotation: ^3.1.1
   package_info: ^0.4.3+2
   platform: ^2.2.1
-  flutter_foreground_plugin: ^0.6.0
+  flutter_foreground_plugin:
+    path: ../packages/flutter_foreground_service_plugin-master
 
   flutter:
     sdk: flutter

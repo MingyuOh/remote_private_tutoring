@@ -1,1 +1,3 @@
 -keep class androidx.lifecycle.** { *; }
+-keep class com.cloudwebrtc.webrtc.** { *; }
+-keep class org.webrtc.** { *; }

@@ -27,7 +27,7 @@
     },
     {
       "name": "audioplayers",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/audioplayers-0.16.1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/audioplayers-0.16.2",
       "packageUri": "lib/",
       "languageVersion": "2.6"
     },
@@ -153,7 +153,7 @@
     },
     {
       "name": "firebase",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/firebase-7.3.0",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/firebase-7.3.3",
       "packageUri": "lib/",
       "languageVersion": "2.7"
     },
@@ -219,7 +219,7 @@
     },
     {
       "name": "flutter_cache_manager",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_cache_manager-2.1.0",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_cache_manager-2.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.6"
     },
@@ -231,7 +231,7 @@
     },
     {
       "name": "flutter_foreground_plugin",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_foreground_plugin-0.6.0",
+      "rootUri": "../../packages/flutter_foreground_service_plugin-master",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
@@ -255,7 +255,7 @@
     },
     {
       "name": "flutter_svg",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_svg-0.19.0",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_svg-0.19.1",
       "packageUri": "lib/",
       "languageVersion": "2.2"
     },
@@ -273,7 +273,7 @@
     },
     {
       "name": "flutter_webrtc",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_webrtc-0.3.3",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_webrtc-0.5.8",
       "packageUri": "lib/",
       "languageVersion": "2.2"
     },
@@ -303,19 +303,19 @@
     },
     {
       "name": "image_picker",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/image_picker-0.6.7+11",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/image_picker-0.6.7+22",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
     {
       "name": "image_picker_platform_interface",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/image_picker_platform_interface-1.1.1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/image_picker_platform_interface-1.1.6",
       "packageUri": "lib/",
       "languageVersion": "2.5"
     },
     {
       "name": "import_js_library",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/import_js_library-1.0.1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/import_js_library-1.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.7"
     },
@@ -342,12 +342,6 @@
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/json_annotation-3.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.7"
-    },
-    {
-      "name": "kakao_flutter_sdk",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/kakao_flutter_sdk-0.5.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.2"
     },
     {
       "name": "libphonenumber",
@@ -381,13 +375,13 @@
     },
     {
       "name": "package_info",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/package_info-0.4.3+2",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/package_info-0.4.3+4",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
     {
       "name": "page_view_indicators",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/page_view_indicators-1.4.0",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/page_view_indicators-1.4.1",
       "packageUri": "lib/",
       "languageVersion": "2.7"
     },
@@ -411,7 +405,7 @@
     },
     {
       "name": "path_provider",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/path_provider-1.6.18",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/path_provider-1.6.27",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
@@ -423,19 +417,19 @@
     },
     {
       "name": "path_provider_macos",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/path_provider_macos-0.0.4+4",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/path_provider_macos-0.0.4+8",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
     {
       "name": "path_provider_platform_interface",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/path_provider_platform_interface-1.0.3",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/path_provider_platform_interface-1.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
     {
       "name": "path_provider_windows",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/path_provider_windows-0.0.4+1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/path_provider_windows-0.0.4+3",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
@@ -465,7 +459,7 @@
     },
     {
       "name": "photo_view",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/photo_view-0.10.2",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/photo_view-0.10.3",
       "packageUri": "lib/",
       "languageVersion": "2.6"
     },
@@ -501,37 +495,37 @@
     },
     {
       "name": "provider",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/provider-4.3.2+2",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/provider-4.3.3",
       "packageUri": "lib/",
       "languageVersion": "2.7"
     },
     {
       "name": "quiver",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/quiver-2.1.3",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/quiver-2.1.5",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
     {
       "name": "rxdart",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/rxdart-0.24.1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/rxdart-0.25.0",
       "packageUri": "lib/",
       "languageVersion": "2.6"
     },
     {
       "name": "shared_preferences",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shared_preferences-0.5.12",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shared_preferences-0.5.12+4",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
     {
       "name": "shared_preferences_linux",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shared_preferences_linux-0.0.2+2",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shared_preferences_linux-0.0.2+4",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
     {
       "name": "shared_preferences_macos",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shared_preferences_macos-0.0.1+10",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shared_preferences_macos-0.0.1+11",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
@@ -549,7 +543,7 @@
     },
     {
       "name": "shared_preferences_windows",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shared_preferences_windows-0.0.1+1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shared_preferences_windows-0.0.2+2",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
@@ -567,13 +561,13 @@
     },
     {
       "name": "sqflite",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/sqflite-1.3.1+1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/sqflite-1.3.2+2",
       "packageUri": "lib/",
-      "languageVersion": "2.7"
+      "languageVersion": "2.10"
     },
     {
       "name": "sqflite_common",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/sqflite_common-1.0.2+1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/sqflite_common-1.0.3+1",
       "packageUri": "lib/",
       "languageVersion": "2.7"
     },
@@ -621,37 +615,37 @@
     },
     {
       "name": "url_launcher",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher-5.7.2",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher-5.7.10",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
     {
       "name": "url_launcher_linux",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher_linux-0.0.1+1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher_linux-0.0.1+4",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
     {
       "name": "url_launcher_macos",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher_macos-0.0.1+8",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher_macos-0.0.1+9",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
     {
       "name": "url_launcher_platform_interface",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher_platform_interface-1.0.8",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher_platform_interface-1.0.9",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
     {
       "name": "url_launcher_web",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher_web-0.1.4+1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher_web-0.1.5+3",
       "packageUri": "lib/",
       "languageVersion": "2.2"
     },
     {
       "name": "url_launcher_windows",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher_windows-0.0.1+1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/url_launcher_windows-0.0.1+3",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
@@ -669,7 +663,7 @@
     },
     {
       "name": "video_player",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/video_player-0.11.0",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/video_player-0.11.1+5",
       "packageUri": "lib/",
       "languageVersion": "2.8"
     },
@@ -681,37 +675,37 @@
     },
     {
       "name": "video_player_web",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/video_player_web-0.1.4",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/video_player_web-0.1.4+1",
       "packageUri": "lib/",
       "languageVersion": "2.8"
     },
     {
       "name": "video_thumbnail",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/video_thumbnail-0.2.2",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/video_thumbnail-0.2.5+1",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
     {
       "name": "wakelock",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/wakelock-0.2.0+1",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/wakelock-0.2.1+1",
       "packageUri": "lib/",
       "languageVersion": "2.8"
     },
     {
       "name": "wakelock_platform_interface",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/wakelock_platform_interface-0.1.0",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/wakelock_platform_interface-0.1.0+1",
       "packageUri": "lib/",
       "languageVersion": "2.8"
     },
     {
       "name": "wakelock_web",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/wakelock_web-0.1.0+2",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/wakelock_web-0.1.0+3",
       "packageUri": "lib/",
       "languageVersion": "2.8"
     },
     {
       "name": "win32",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/win32-1.7.3",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/win32-1.7.4+1",
       "packageUri": "lib/",
       "languageVersion": "2.7"
     },
@@ -734,7 +728,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2021-01-31T09:45:51.166486Z",
+  "generated": "2021-02-03T12:12:05.949879Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }

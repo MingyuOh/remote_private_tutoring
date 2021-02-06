@@ -49,6 +49,8 @@ class VideoCallsHandler {
   final bool isCaller;
   final HomeConversationModel homeConversationModel;
   bool _isTest = false;
+  String get sdpSemantics =>
+      WebRTC.platformIsWindows ? 'plan-b' : 'unified-plan';
 
   FireStoreUtils _fireStoreUtils = FireStoreUtils();
 
@@ -71,15 +73,14 @@ class VideoCallsHandler {
         'username': 'c38d01c8',
         'credential': 'f7bf2454'
       },
-    ]
+    ],
+    'sdpSemantics':  WebRTC.platformIsWindows ? 'plan-b' : 'unified-plan'
   };
 
   final Map<String, dynamic> _config = {
-    'mandatory': {},
+    'mandatory':  {},
     'optional': [
-      {'DtlsSrtpKeyAgreement': true,
-        'sdpSemantics': 'uinified-plan',
-      },
+      {'DtlsSrtpKeyAgreement': true, },
     ],
   };
 
@@ -89,6 +90,25 @@ class VideoCallsHandler {
       'OfferToReceiveVideo': true,
     },
     'optional': [],
+  };
+
+  final Map<String, dynamic> _userMediaConstraints = {
+    'audio': true,
+    'video': {
+      'mandatory': {
+        'minWidth':
+        '640', // Provide your own width, height and frame rate here
+        'minHeight': '480',
+        'minFrameRate': '30',
+      },
+      'facingMode': 'user',
+      'optional': [],
+    }
+  };
+
+  final Map<String, dynamic> _displayMediaConstraints = {
+    'audio': true,
+    'video': true
   };
 
   close() {
@@ -229,53 +249,74 @@ class VideoCallsHandler {
     }
   }
 
-  Future<void> replaceVideoStreamTrack({String token, String id,
-    BuildContext context, MediaStream stream, MediaStreamTrack mediaStreamTrack}) async {
-      _peerConnections.forEach((key, pc) {
-        pc.onRenegotiationNeeded = () async {
-            await pc.removeStream(_localStream);
-            await pc.addStream(stream);
-            _isTest = true;
-            await _createOffer(token, id, pc, context);
-        };
+  Future<void> replaceVideoStreamTrack({bool isVideoCall}) async {
+    /*final Map<String, dynamic> mediaConstraints = {
+      'audio': true,
+      'video': true
+    };*/
+    if(isVideoCall == true)
+      {
+        print("Start video call");
+        await navigator.mediaDevices.getUserMedia(_userMediaConstraints).then((stream) {
+          var videoTrack = stream.getVideoTracks()[0];
+          _peerConnections.forEach((key, pc) async {
+            pc.getSenders().then((senders) {
+              senders.forEach((s) {
+                s.track.stop();
+                if (s.track.kind == videoTrack.kind) {
+                  print("found sender:, $s");
+                  switch (sdpSemantics) {
+                    case 'plan-b':
+                      pc.removeStream(_localStream);
+                      break;
+                    case 'unified-plan':
+                      print("Replace track in unified-plan");
+                      s.replaceTrack(videoTrack);
+                      break;
+                  }
+                  print("Replace track success");
+                }
+              });
+            }
+            ).catchError((onError) {
+              print("Error happens:', ${onError.toString()}");
+            });
+          });
+        });
+      }
+    else {
+      print("Start screen sharing");
+      await navigator.mediaDevices.getDisplayMedia(_displayMediaConstraints).then((stream) {
+        var screenTrack = stream.getVideoTracks()[0];
+        _peerConnections.forEach((key, pc) async {
+          pc.getSenders().then((senders) {
+            senders.forEach((s) {
+              if (s.track.kind == screenTrack.kind) {
+                print("found sender:, $s");
+                switch (sdpSemantics) {
+                  case 'plan-b':
+                    pc.removeStream(_localStream);
+                    break;
+                  case 'unified-plan':
+                    print("Replace track in unified-plan");
+                    s.replaceTrack(screenTrack);
+                    break;
+                }
+                print("Replace track success");
+              }
+            });
+          }
+          ).catchError((onError) {
+            print("Error happens:', ${onError.toString()}");
+          });
+        });
       });
-
+    }
     print("Replace videoStreamTrack done");
   }
 
   Future<MediaStream> createStream() async {
-    final Map<String, dynamic> mediaConstraints = {
-      'audio': true,
-      'video': {
-        'mandatory': {
-          'minWidth':
-              '640', // Provide your own width, height and frame rate here
-          'minHeight': '480',
-          'minFrameRate': '30',
-        },
-        'facingMode': 'user',
-        'optional': [],
-      }
-    };
-
-    MediaStream stream = await MediaDevices.getUserMedia(mediaConstraints);
-    if (this.onLocalStream != null) {
-      this.onLocalStream(stream);
-    }
-    return stream;
-  }
-
-  Future<MediaStream> createDisplayStream() async {
-    final Map<String, dynamic> mediaConstraints = {
-      'audio': true,
-      'video': true
-      /*'video': {
-        'cursor': 'always',
-        'displaySurface': 'application',
-      },*/
-    };
-
-    MediaStream stream = await MediaDevices.getDisplayMedia(mediaConstraints);
+    MediaStream stream = await navigator.mediaDevices.getUserMedia(_userMediaConstraints);
     if (this.onLocalStream != null) {
       this.onLocalStream(stream);
     }
@@ -284,13 +325,15 @@ class VideoCallsHandler {
 
   Future<RTCPeerConnection> _createPeerConnection(id) async {
     _localStream = await createStream();
+
     // 통신 연결
     RTCPeerConnection pc = await createPeerConnection(_iceServers, _config);
     // 자신의 스트림 추가
-    pc.addStream(_localStream);
+    //pc.addStream(_localStream);
     pc.onIceCandidate = (RTCIceCandidate candidate) {
       _localCandidates.add(candidate.toMap());
     };
+
     pc.onAddStream = (stream) {
       if (this.onAddRemoteStream != null) this.onAddRemoteStream(stream);
       //_remoteStreams.add(stream);
@@ -301,6 +344,18 @@ class VideoCallsHandler {
         return (it.id == stream.id);
       });
     };
+
+    switch (sdpSemantics) {
+      case 'plan-b':
+        await pc.addStream(_localStream);
+        break;
+      case 'unified-plan':
+        _localStream.getTracks().forEach((track) {
+          pc.addTrack(track, _localStream);
+        });
+        break;
+    }
+
     return pc;
   }
 
