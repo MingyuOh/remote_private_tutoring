@@ -1,12 +1,11 @@
 import 'dart:ui';
 import 'dart:core';
-import 'dart:io' show Platform;
+//import 'dart:io' show Platform;
 import 'package:flutter/services.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:remote_private_tutoring/constants.dart';
@@ -218,7 +217,9 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                               color: Colors.redAccent,
                               child: InkWell(
                                 onTap: () async {
-                                  _isVideoActive = true;
+                                  setState(() {
+                                    _isVideoActive = true;
+                                  });
                                   if (_noteOn == true) {
                                     try {
                                       print("isRemoteActive: $_isVideoActive");
@@ -259,7 +260,9 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                               color: Colors.black,
                               child: InkWell(
                                 onTap: () async {
-                                  _isVideoActive = false;
+                                  setState(() {
+                                    _isVideoActive = false;
+                                  });
                                   if (_noteOn == false) {
                                     try {
                                       print("isRemoteActive: $_isVideoActive");
@@ -293,8 +296,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ],),
                     ),
                   ),
 

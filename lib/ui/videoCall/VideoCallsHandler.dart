@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:flutter_webrtc/src/helper.dart';
 import 'package:remote_private_tutoring/constants.dart';
 import 'package:remote_private_tutoring/main.dart';
 import 'package:remote_private_tutoring/model/ConversationModel.dart';
@@ -48,7 +49,7 @@ class VideoCallsHandler {
   String _selfId = MyAppState.currentUser.userID; // 현재 유저
   final bool isCaller;
   final HomeConversationModel homeConversationModel;
-  bool _isTest = false;
+
   String get sdpSemantics =>
       WebRTC.platformIsWindows ? 'plan-b' : 'unified-plan';
 
@@ -127,7 +128,7 @@ class VideoCallsHandler {
 
   void switchCamera() {
     if (_localStream != null) {
-      _localStream.getVideoTracks()[0].switchCamera();
+      Helper.switchCamera(_localStream.getVideoTracks()[0]);
     }
   }
 
@@ -420,12 +421,9 @@ class VideoCallsHandler {
             .collection(CALL_DATA)
             .document(_selfId)
             .setData(request);
-        if(_isTest == false) {
           updateChat(context);
           sendFCMNotificationForCalls(request, token);
-        }
       } else {
-        if(_isTest == false)
           showAlertDialog(context, 'call'.tr(), 'userHasAnOnGoingCall'.tr());
       }
     });
