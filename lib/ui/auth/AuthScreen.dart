@@ -13,8 +13,8 @@ import 'package:remote_private_tutoring/model/User.dart';
 import 'package:remote_private_tutoring/services/helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:remote_private_tutoring/services/FirebaseHelper.dart';
-import 'package:kakao_flutter_sdk/auth.dart';
-import 'package:kakao_flutter_sdk/user.dart' as kakaoUser;
+//import 'package:kakao_flutter_sdk/auth.dart';
+//import 'package:kakao_flutter_sdk/user.dart' as kakaoUser;
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 // 카카오톡 https://theubermensch.tistory.com/66 참고
@@ -73,7 +73,7 @@ class _AuthScreenState extends State<AuthScreen> {
   // -------------------------------------------------
 
   // -------------------- 카카오톡 --------------------
-  bool _isKakaoTalkInstalled = false;
+  /*bool _isKakaoTalkInstalled = false;
 
   // 카카오톡 설치 여부 함수
   _initKakaoTalkInstalled() async {
@@ -140,19 +140,19 @@ class _AuthScreenState extends State<AuthScreen> {
     } catch (e) {
       print(e);
     }
-  }
+  }*/
   // -------------------------------------------------
 
   @override
   void initState() {
     super.initState();
-    _initKakaoTalkInstalled();
+    //_initKakaoTalkInstalled();
   }
 
   @override
   Widget build(BuildContext context) {
-    KakaoContext.clientId = KAKAO_CLIENT_KEY;
-    KakaoContext.javascriptClientId = KAKAO_JAVASCRIPT_CLIENT_KEY;
+    //KakaoContext.clientId = KAKAO_CLIENT_KEY;
+    //KakaoContext.javascriptClientId = KAKAO_JAVASCRIPT_CLIENT_KEY;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -176,8 +176,7 @@ class _AuthScreenState extends State<AuthScreen> {
               title: '카카오톡으로 로그인',
               buttonColor: KAKAO_BUTTON_COLOR,
               image: 'assets/images/facebook_logo.png',
-              onPressed:
-                  _isKakaoTalkInstalled ? _loginWithTalk : _loginWithKakao,
+              onPressed: null // () => _isKakaoTalkInstalled ? _loginWithTalk : _loginWithKakao,
             ),
 
             // 페이스북 로그인
