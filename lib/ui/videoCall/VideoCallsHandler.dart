@@ -263,7 +263,6 @@ class VideoCallsHandler {
           _peerConnections.forEach((key, pc) async {
             pc.getSenders().then((senders) {
               senders.forEach((s) {
-                s.track.stop();
                 if (s.track.kind == videoTrack.kind) {
                   print("found sender:, $s");
                   switch (sdpSemantics) {

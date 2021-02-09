@@ -54,12 +54,6 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
-    /*if (Platform.isAndroid == true) {
-      //WidgetsFlutterBinding.ensureInitialized();
-      print("Start Foreground Service");
-      startForegroundService();
-    }*/
-
     if (!widget.isCaller) {
       // 전화를 받을 사람일 경우
       FlutterRingtonePlayer.playRingtone();
@@ -263,6 +257,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                   setState(() {
                                     _isVideoActive = false;
                                   });
+
                                   if (_noteOn == false) {
                                     try {
                                       print("isRemoteActive: $_isVideoActive");
