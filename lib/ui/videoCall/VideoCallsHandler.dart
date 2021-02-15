@@ -97,8 +97,7 @@ class VideoCallsHandler {
     'audio': true,
     'video': {
       'mandatory': {
-        'minWidth':
-        '640', // Provide your own width, height and frame rate here
+        'minWidth': '640', // Provide your own width, height and frame rate here
         'minHeight': '480',
         'minFrameRate': '30',
       },
@@ -260,7 +259,7 @@ class VideoCallsHandler {
         print("Start video call");
         await navigator.mediaDevices.getUserMedia(_userMediaConstraints).then((stream) {
           var videoTrack = stream.getVideoTracks()[0];
-          _peerConnections.forEach((key, pc) async {
+          _peerConnections.forEach((key, pc) {
             pc.getSenders().then((senders) {
               senders.forEach((s) {
                 if (s.track.kind == videoTrack.kind) {
@@ -288,7 +287,7 @@ class VideoCallsHandler {
       print("Start screen sharing");
       await navigator.mediaDevices.getDisplayMedia(_displayMediaConstraints).then((stream) {
         var screenTrack = stream.getVideoTracks()[0];
-        _peerConnections.forEach((key, pc) async {
+        _peerConnections.forEach((key, pc) {
           pc.getSenders().then((senders) {
             senders.forEach((s) {
               if (s.track.kind == screenTrack.kind) {

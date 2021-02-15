@@ -79,7 +79,8 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   @override
   deactivate() {
     super.deactivate();
-    if (_signaling != null) _signaling.close();
+    if (_signaling != null)
+      _signaling.close();
     _localRenderer.dispose();
     _remoteRenderer.dispose();
   }
