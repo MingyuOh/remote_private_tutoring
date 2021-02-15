@@ -1,5 +1,5 @@
 {
-  "appName": "Instachatty",
+  "appName": "remotePrivateTutoring",
   "conversations": "Conversations",
   "contacts": "Contacts",
   "search": "Search",
@@ -47,7 +47,7 @@
   "verify": "Verify",
   "detailsSavedSuccessfully": "Details saved successfully",
   "couldNotSaveDetailsPleaseTryAgain": "Couldn't save details, Please try again.",
-  "welcome": "Welcome to Instachatty",
+  "welcome": "Welcome to remotePrivateTutoring",
   "welcomeSubtitle": "Stay in touch with your best friends.",
   "logIn": "Log In",
   "signUp": "Sign Up",

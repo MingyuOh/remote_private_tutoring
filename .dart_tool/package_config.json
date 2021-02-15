@@ -386,6 +386,12 @@
       "languageVersion": "2.7"
     },
     {
+      "name": "painter",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/painter-0.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.5"
+    },
+    {
       "name": "path",
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/path-1.8.0-nullsafety.1",
       "packageUri": "lib/",
@@ -728,7 +734,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2021-02-09T13:04:19.847824Z",
+  "generated": "2021-02-15T08:06:30.207711Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }

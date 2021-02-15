@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>instachatty</string>
+	<string>remotePrivateTutoring</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -71,7 +71,7 @@
         <key>FacebookAppID</key>
         <string>285315185217069</string>
         <key>FacebookDisplayName</key>
-        <string>Instachatty</string>
+        <string>remotePrivateTutoring</string>
 
         <key>LSApplicationQueriesSchemes</key>
         <array>

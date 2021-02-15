@@ -37,7 +37,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   VideoCallsHandler _signaling;
   RTCVideoRenderer _localRenderer = RTCVideoRenderer(); // 자신 화면
   RTCVideoRenderer _remoteRenderer = RTCVideoRenderer(); // 상대방 화면
-  bool _isCallActive = false,
+  bool _isCallActive = true,
       _isVideoActive = true,
       _noteOn = false,
       _micOn = true,
@@ -54,7 +54,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
-    if (!widget.isCaller) {
+    /*if (!widget.isCaller) {
       // 전화를 받을 사람일 경우
       FlutterRingtonePlayer.playRingtone();
       print('_VideoCallScreenState.initState');
@@ -68,10 +68,10 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       _signaling.startCountDown(context);
       _signaling.setupOnRemoteHangupListener(context);
     }
-    Wakelock.enable();
+    Wakelock.enable();*/
   }
 
-  initRenderers() async {
+  /*initRenderers() async {
     await _localRenderer.initialize();
     await _remoteRenderer.initialize();
   }
@@ -98,7 +98,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     Wakelock.disable();
   }
 
-  /*Future<bool> startForegroundService() async {
+  *//*Future<bool> startForegroundService() async {
     await FlutterForegroundPlugin.setServiceMethodInterval(seconds: 5);
     await FlutterForegroundPlugin.setServiceMethod(globalForegroundService);
     await FlutterForegroundPlugin.startForegroundService(
@@ -118,7 +118,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
 
   void globalForegroundService() {
     debugPrint('current datetime is ${DateTime.now()}');
-  }*/
+  }*//*
 
   void _connect() async {
     if (_signaling == null) {
@@ -183,7 +183,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
         _signaling.initCall(widget.homeConversationModel.members.first.fcmToken,
             widget.homeConversationModel.members.first.userID, context);
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -193,6 +193,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: _isCallActive
+            ? _isVideoActive
             ? Row(
                 children: skipNulls([
                   // 왼쪽 메뉴
@@ -218,8 +219,8 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                   if (_noteOn == true) {
                                     try {
                                       print("isRemoteActive: $_isVideoActive");
-                                      await _signaling.replaceVideoStreamTrack(
-                                          isVideoCall: true);
+                                      /*await _signaling.replaceVideoStreamTrack(
+                                          isVideoCall: true);*/
                                     } catch (e) {
                                       print(e.toString());
                                     }
@@ -262,8 +263,8 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                   if (_noteOn == false) {
                                     try {
                                       print("isRemoteActive: $_isVideoActive");
-                                      await _signaling.replaceVideoStreamTrack(
-                                          isVideoCall: false);
+                                      /*await _signaling.replaceVideoStreamTrack(
+                                          isVideoCall: false);*/
                                     } catch (e) {
                                       print("click note menu error: " +
                                           e.toString());
@@ -309,8 +310,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                               children: skipNulls([
                             // ================== Remote Renderer ==================
                             // ======================= Start =======================
-                                _isVideoActive // 화상통화 메뉴일 경우
-                                ? Positioned(
+                                Positioned(
                                     top: 0,
                                     left: 0,
                                     right: 0,
@@ -318,52 +318,21 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                     child: Container(
                                       margin: EdgeInsets.fromLTRB(
                                           0.0, 0.0, 0.0, 0.0),
-                                      child: RTCVideoView(
+                                      /*child: RTCVideoView(
                                         _remoteRenderer,
                                         //mirror: _isVideoActive,
                                         objectFit: RTCVideoViewObjectFit
                                             .RTCVideoViewObjectFitCover,
                                       ),
                                       decoration: BoxDecoration(
-                                          color: Color(COLOR_PRIMARY)),
+                                          color: Color(COLOR_PRIMARY)),*/
                                     ),
-                                  )
-                                : Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    child: Container(
-                                      child: Center(
-                                        child: Container(
-                                          height: 120,
-                                          child: AnimatedDefaultTextStyle(
-                                            duration: const Duration(
-                                                milliseconds: 300),
-                                            style: TextStyle(
-                                              fontSize: 50.0,
-                                              color: testAnim
-                                                  ? Colors.red
-                                                  : Colors.blueAccent,
-                                              fontWeight: testAnim
-                                                  ? FontWeight.w100
-                                                  : FontWeight.bold,
-                                            ),
-                                            child: Text('Note space for teacher!'),
-                                          ),
-                                        ),
-                                      ),
-                                      decoration:
-                                          BoxDecoration(color: Colors.white),
-                                    ),
-                                  ), // 노트 PDF, PPT 등 + 펜 + Sharing screen
+                                  ),
                             // ======================= End =======================
 
                             // ================== Local Renderer ===================
                             // ======================= Start =======================
-                                _isVideoActive
-                                ? SmallVideoScreen(renderer: _localRenderer)
-                                : SmallVideoScreen(renderer: _remoteRenderer)
+                                SmallVideoScreen(renderer: _localRenderer)
                             // ======================= End =======================
                           ])),
                         ),
@@ -553,6 +522,36 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                         ),
                 ]), // 앱 전체 - End
               )
+        : Stack(
+        // 노트 PDF, PPT 등 + 펜 + Sharing screen
+          children: [
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            color: Colors.grey[800],
+          ),
+        ),
+            Positioned(
+              top: 10,
+              left: 10,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back),
+                iconSize: 30.0,
+                color: Colors.white54,
+                onPressed: () async {
+                  setState(() {
+                    _isVideoActive = true;
+                  });
+                },
+              ),
+            ),
+          ],
+        )
+
+        // 현재 통화 연결이 안되었을 때
             : Stack(
                 children: skipNulls([
                   Container(
@@ -702,13 +701,13 @@ class SmallVideoScreen extends StatelessWidget {
             child: (renderer != null)
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(25),
-                    child: RTCVideoView(
+                    /*child: RTCVideoView(
                       renderer,
                       mirror: true,
                       objectFit:
                           RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-                    ))
-                : Container()),
+                    )*/)
+                : null),
       ),
     );
   }
