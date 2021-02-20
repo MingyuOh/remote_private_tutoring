@@ -116,6 +116,18 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "device_info",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/device_info-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "device_info_platform_interface",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/device_info_platform_interface-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
       "name": "dio",
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/dio-3.0.10",
       "packageUri": "lib/",
@@ -134,6 +146,24 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "extended_image",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/extended_image-1.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.6"
+    },
+    {
+      "name": "extended_image_library",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/extended_image_library-0.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "extension",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/extension-0.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.6"
+    },
+    {
       "name": "fake_async",
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/fake_async-1.2.0-nullsafety.1",
       "packageUri": "lib/",
@@ -150,6 +180,12 @@
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/file-5.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.2"
+    },
+    {
+      "name": "file_picker",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/file_picker-2.1.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
     },
     {
       "name": "firebase",
@@ -290,6 +326,12 @@
       "languageVersion": "2.4"
     },
     {
+      "name": "http_client_helper",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/http_client_helper-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "http_parser",
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/http_parser-3.1.4",
       "packageUri": "lib/",
@@ -360,6 +402,18 @@
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/meta-1.3.0-nullsafety.3",
       "packageUri": "lib/",
       "languageVersion": "2.10"
+    },
+    {
+      "name": "native_pdf_renderer",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/native_pdf_renderer-2.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
+      "name": "native_pdf_view",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/native_pdf_view-3.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.8"
     },
     {
       "name": "nested",
@@ -734,7 +788,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2021-02-15T08:06:30.207711Z",
+  "generated": "2021-02-18T07:22:47.284503Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }

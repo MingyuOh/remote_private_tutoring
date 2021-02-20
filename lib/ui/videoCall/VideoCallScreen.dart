@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'dart:core';
 //import 'dart:io' show Platform;
@@ -14,6 +15,7 @@ import 'package:remote_private_tutoring/services/helper.dart';
 import 'package:remote_private_tutoring/ui/videoCall/VideoCallsHandler.dart';
 //import 'package:flutter_foreground_plugin/flutter_foreground_plugin.dart';
 import 'package:wakelock/wakelock.dart';
+import 'package:remote_private_tutoring/ui/documentViewer/documentHandler.dart';
 
 class VideoCallScreen extends StatefulWidget {
   final HomeConversationModel homeConversationModel;
@@ -42,17 +44,20 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       _noteOn = false,
       _micOn = true,
       _speakerOn = true,
-      _chatOn = true;
+      _chatOn = true,
+      _fileOn = false;
   MediaStream _localStream;
+  DocumentHandler _documentHandler;
 
   bool testAnim = true;
-
 
   initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIOverlays([]); // 상태바와 네비게이션바 감추는 함수
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+
+    _documentHandler = DocumentHandler();
 
     /*if (!widget.isCaller) {
       // 전화를 받을 사람일 경우
@@ -98,7 +103,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     Wakelock.disable();
   }
 
-  *//*Future<bool> startForegroundService() async {
+  */ /*Future<bool> startForegroundService() async {
     await FlutterForegroundPlugin.setServiceMethodInterval(seconds: 5);
     await FlutterForegroundPlugin.setServiceMethod(globalForegroundService);
     await FlutterForegroundPlugin.startForegroundService(
@@ -118,7 +123,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
 
   void globalForegroundService() {
     debugPrint('current datetime is ${DateTime.now()}');
-  }*//*
+  }*/ /*
 
   void _connect() async {
     if (_signaling == null) {
@@ -194,131 +199,139 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
         height: MediaQuery.of(context).size.height,
         child: _isCallActive
             ? _isVideoActive
-            ? Row(
-                children: skipNulls([
-                  // 왼쪽 메뉴
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      color: Colors.blueAccent,
-                      child: Column(
-                        children: [
-                          // 화상 탭(아이콘 및 텍스트)
-                          Expanded(
-                            flex: 5,
-                            child: Container(
-                              width: double.infinity,
-                              color: Colors.redAccent,
-                              child: InkWell(
-                                onTap: () async {
-                                  setState(() {
-                                    _isVideoActive = true;
-                                  });
-                                  if (_noteOn == true) {
-                                    try {
-                                      print("isRemoteActive: $_isVideoActive");
-                                      /*await _signaling.replaceVideoStreamTrack(
+                ? Row(
+                    children: skipNulls([
+                      // 왼쪽 메뉴
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          color: Colors.blueAccent,
+                          child: Column(
+                            children: [
+                              // 화상 탭(아이콘 및 텍스트)
+                              Expanded(
+                                flex: 5,
+                                child: Container(
+                                  width: double.infinity,
+                                  color: Colors.redAccent,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      setState(() {
+                                        _isVideoActive = true;
+                                      });
+                                      if (_noteOn == true) {
+                                        try {
+                                          print("isRemoteActive: $_isVideoActive");
+                                          /*await _signaling.replaceVideoStreamTrack(
                                           isVideoCall: true);*/
-                                    } catch (e) {
-                                      print(e.toString());
-                                    }
-                                  }
-                                  _noteOn = false;
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      IconData(0xeacb,
-                                          fontFamily: 'MaterialIcons'),
-                                      color: Colors.white,
-                                      size: 30.0,
+                                        } catch (e) {
+                                          print(e.toString());
+                                        }
+                                      }
+                                      _noteOn = false;
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          IconData(0xeacb,
+                                              fontFamily: 'MaterialIcons'),
+                                          color: Colors.white,
+                                          size: 30.0,
+                                        ),
+                                        Text(
+                                          '화상',
+                                          style: TextStyle(
+                                              fontSize: 10.0,
+                                              color: Colors.white),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      '화상',
-                                      style: TextStyle(
-                                          fontSize: 10.0, color: Colors.white),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
 
-                          // 노트 탭(아이콘 및 텍스트)
-                          Expanded(
-                            flex: 5,
-                            child: Container(
-                              width: double.infinity,
-                              color: Colors.black,
-                              child: InkWell(
-                                onTap: () async {
-                                  setState(() {
-                                    _isVideoActive = false;
-                                  });
+                              // 노트 탭(아이콘 및 텍스트)
+                              Expanded(
+                                flex: 5,
+                                child: Container(
+                                  width: double.infinity,
+                                  color: Colors.black,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      setState(() {
+                                        _isVideoActive = false;
+                                      });
 
-                                  if (_noteOn == false) {
-                                    try {
-                                      print("isRemoteActive: $_isVideoActive");
-                                      /*await _signaling.replaceVideoStreamTrack(
+                                      if (_noteOn == false) {
+                                        try {
+                                          print(
+                                              "isRemoteActive: $_isVideoActive");
+                                          /*await _signaling.replaceVideoStreamTrack(
                                           isVideoCall: false);*/
-                                    } catch (e) {
-                                      print("click note menu error: " +
-                                          e.toString());
-                                    }
-                                  }
-                                  _noteOn = true;
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      IconData(0xe70a,
-                                          fontFamily: 'MaterialIcons',
-                                          matchTextDirection: true),
-                                      color: Colors.white,
-                                      size: 30.0,
+                                        } catch (e) {
+                                          print("click note menu error: " +
+                                              e.toString());
+                                        }
+                                      }
+                                      _noteOn = true;
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          IconData(0xe70a,
+                                              fontFamily: 'MaterialIcons',
+                                              matchTextDirection: true),
+                                          color: Colors.white,
+                                          size: 30.0,
+                                        ),
+                                        Text(
+                                          '노트',
+                                          style: TextStyle(
+                                              fontSize: 10.0,
+                                              color: Colors.white),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      '노트',
-                                      style: TextStyle(
-                                          fontSize: 10.0, color: Colors.white),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],),
-                    ),
-                  ),
+                        ),
+                      ),
 
-                  // 화상화면
-                  Expanded(
-                    flex: _chatOn
-                        ? VIDEO_SCREEN_FLEX
-                        : VIDEO_SCREEN_FLEX - CHAT_SCREEN_FLEX,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          flex: VIDEO_SCREEN_TOP_FLEX,
-                          child: Stack(
-                              children: skipNulls([
-                            // ================== Remote Renderer ==================
-                            // ======================= Start =======================
+                      // 화상화면
+                      Expanded(
+                        flex: _chatOn
+                            ? VIDEO_SCREEN_FLEX
+                            : VIDEO_SCREEN_FLEX - CHAT_SCREEN_FLEX,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: VIDEO_SCREEN_TOP_FLEX,
+                              child: Stack(
+                                  children: skipNulls([
+                                // ================== Remote Renderer ==================
+                                // ======================= Start =======================
                                 Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    child: Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          0.0, 0.0, 0.0, 0.0),
-                                      /*child: RTCVideoView(
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  child: Container(
+                                    margin:
+                                        EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                    /*child: RTCVideoView(
                                         _remoteRenderer,
                                         //mirror: _isVideoActive,
                                         objectFit: RTCVideoViewObjectFit
@@ -326,232 +339,260 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                       ),
                                       decoration: BoxDecoration(
                                           color: Color(COLOR_PRIMARY)),*/
-                                    ),
                                   ),
-                            // ======================= End =======================
+                                ),
+                                // ======================= End =======================
 
-                            // ================== Local Renderer ===================
-                            // ======================= Start =======================
+                                // ================== Local Renderer ===================
+                                // ======================= Start =======================
                                 SmallVideoScreen(renderer: _localRenderer)
-                            // ======================= End =======================
-                          ])),
-                        ),
-                        Flexible(
-                          flex: VIDEO_SCREEN_BOTTOM_FLEX,
-                          child: Container(
-                            height: 70.0,
-                            color: Colors.grey[900],
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                FloatingActionButton(
-                                  backgroundColor: Color(COLOR_ACCENT),
-                                  heroTag: 'speakerFAB',
-                                  child: Icon(_speakerOn
-                                      ? Icons.volume_up
-                                      : Icons.volume_off),
-                                  onPressed: _speakerToggle,
-                                ),
-
-                                SizedBox(width: 30),
-
-                                FloatingActionButton(
-                                  heroTag: 'hangupFAB',
-                                  onPressed: () => _hangUp(),
-                                  tooltip: 'hangup'.tr(),
-                                  child: Icon(Icons.call_end),
-                                  backgroundColor: Colors.pink,
-                                ),
-
-                                SizedBox(width: 30),
-
-                                FloatingActionButton(
-                                  backgroundColor: Color(COLOR_ACCENT),
-                                  heroTag: 'micFAB',
-                                  child:
-                                      Icon(_micOn ? Icons.mic : Icons.mic_off),
-                                  onPressed: _micToggle,
-                                ),
-
-                                SizedBox(width: 30),
-
-                                // 채팅 FloatingButton
-                                FloatingActionButton(
-                                  backgroundColor: Colors.blueAccent,
-                                  heroTag: 'chatFAB',
-                                  child:
-                                      Icon(_chatOn ? Icons.chat : Icons.close),
-                                  onPressed: _chatToggle,
-                                )
-                              ],
+                                // ======================= End =======================
+                              ])),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                            Flexible(
+                              flex: VIDEO_SCREEN_BOTTOM_FLEX,
+                              child: Container(
+                                height: 70.0,
+                                color: Colors.grey[900],
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    FloatingActionButton(
+                                      backgroundColor: Color(COLOR_ACCENT),
+                                      heroTag: 'speakerFAB',
+                                      child: Icon(_speakerOn
+                                          ? Icons.volume_up
+                                          : Icons.volume_off),
+                                      onPressed: _speakerToggle,
+                                    ),
 
-                  // 내 화면 및 채팅
-                  _chatOn
-                      ? null
-                      : Expanded(
-                          flex: CHAT_SCREEN_FLEX,
-                          child: Container(
-                              child: _isCallActive
-                                  ? Column(children: [
-                                      Expanded(
-                                        flex: VIDEO_SCREEN_TOP_FLEX,
-                                        child: Container(
-                                          color: Colors.black26,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: VIDEO_SCREEN_BOTTOM_FLEX,
-                                        child: Container(
-                                          color: Colors.white70,
-                                          child: Row(
-                                            children: <Widget>[
-                                              IconButton(
-                                                icon: Icon(
-                                                  Icons.camera_alt,
-                                                  color: Color(COLOR_PRIMARY),
-                                                ),
-                                                onPressed: null,
-                                              ),
-                                              Expanded(
-                                                  child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 2.0,
-                                                              right: 2),
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.all(2),
-                                                        decoration:
-                                                            ShapeDecoration(
-                                                          shape:
-                                                              OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .all(
-                                                                    Radius
-                                                                        .circular(
+                                    SizedBox(width: 30),
+
+                                    FloatingActionButton(
+                                      heroTag: 'hangupFAB',
+                                      onPressed: () => _hangUp(),
+                                      tooltip: 'hangup'.tr(),
+                                      child: Icon(Icons.call_end),
+                                      backgroundColor: Colors.pink,
+                                    ),
+
+                                    SizedBox(width: 30),
+
+                                    FloatingActionButton(
+                                      backgroundColor: Color(COLOR_ACCENT),
+                                      heroTag: 'micFAB',
+                                      child: Icon(
+                                          _micOn ? Icons.mic : Icons.mic_off),
+                                      onPressed: _micToggle,
+                                    ),
+
+                                    SizedBox(width: 30),
+
+                                    // 채팅 FloatingButton
+                                    FloatingActionButton(
+                                      backgroundColor: Colors.blueAccent,
+                                      heroTag: 'chatFAB',
+                                      child: Icon(
+                                          _chatOn ? Icons.chat : Icons.close),
+                                      onPressed: _chatToggle,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // 내 화면 및 채팅
+                      _chatOn
+                          ? null
+                          : Expanded(
+                              flex: CHAT_SCREEN_FLEX,
+                              child: Container(
+                                  child: _isCallActive
+                                      ? Column(children: [
+                                          Expanded(
+                                            flex: VIDEO_SCREEN_TOP_FLEX,
+                                            child: Container(
+                                              color: Colors.black26,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: VIDEO_SCREEN_BOTTOM_FLEX,
+                                            child: Container(
+                                              color: Colors.white70,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  IconButton(
+                                                    icon: Icon(
+                                                      Icons.camera_alt,
+                                                      color:
+                                                          Color(COLOR_PRIMARY),
+                                                    ),
+                                                    onPressed: null,
+                                                  ),
+                                                  Expanded(
+                                                      child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 2.0,
+                                                                  right: 2),
+                                                          child: Container(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    2),
+                                                            decoration:
+                                                                ShapeDecoration(
+                                                              shape:
+                                                                  OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .all(
+                                                                        Radius.circular(
                                                                             360),
-                                                                  ),
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                          style:
-                                                                              BorderStyle.none)),
-                                                          color: isDarkMode(
-                                                                  context)
-                                                              ? Colors.grey[700]
-                                                              : Colors.grey
-                                                                  .shade200,
-                                                        ),
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Expanded(
-                                                              child: TextField(
-                                                                onChanged: (s) {
-                                                                  setState(
-                                                                      () {});
-                                                                },
-                                                                textAlignVertical:
-                                                                    TextAlignVertical
-                                                                        .center,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  isDense: true,
-                                                                  contentPadding:
-                                                                      EdgeInsets.symmetric(
+                                                                      ),
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                              style: BorderStyle.none)),
+                                                              color: isDarkMode(
+                                                                      context)
+                                                                  ? Colors
+                                                                      .grey[700]
+                                                                  : Colors.grey
+                                                                      .shade200,
+                                                            ),
+                                                            child: Row(
+                                                              children: <
+                                                                  Widget>[
+                                                                Expanded(
+                                                                  child:
+                                                                      TextField(
+                                                                    onChanged:
+                                                                        (s) {
+                                                                      setState(
+                                                                          () {});
+                                                                    },
+                                                                    textAlignVertical:
+                                                                        TextAlignVertical
+                                                                            .center,
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      isDense:
+                                                                          true,
+                                                                      contentPadding: EdgeInsets.symmetric(
                                                                           vertical:
                                                                               8,
                                                                           horizontal:
                                                                               8),
-                                                                  hintText:
-                                                                      'startTyping'
-                                                                          .tr(),
-                                                                  hintStyle: TextStyle(
-                                                                      color: Colors
-                                                                              .grey[
-                                                                          400]),
-                                                                  focusedBorder:
-                                                                      OutlineInputBorder(
-                                                                          borderRadius: BorderRadius
-                                                                              .all(
+                                                                      hintText:
+                                                                          'startTyping'
+                                                                              .tr(),
+                                                                      hintStyle:
+                                                                          TextStyle(
+                                                                              color: Colors.grey[400]),
+                                                                      focusedBorder: OutlineInputBorder(
+                                                                          borderRadius: BorderRadius.all(
                                                                             Radius.circular(360),
                                                                           ),
-                                                                          borderSide:
-                                                                              BorderSide(style: BorderStyle.none)),
-                                                                  enabledBorder:
-                                                                      OutlineInputBorder(
-                                                                          borderRadius: BorderRadius
-                                                                              .all(
+                                                                          borderSide: BorderSide(style: BorderStyle.none)),
+                                                                      enabledBorder: OutlineInputBorder(
+                                                                          borderRadius: BorderRadius.all(
                                                                             Radius.circular(360),
                                                                           ),
-                                                                          borderSide:
-                                                                              BorderSide(style: BorderStyle.none)),
+                                                                          borderSide: BorderSide(style: BorderStyle.none)),
+                                                                    ),
+                                                                    textCapitalization:
+                                                                        TextCapitalization
+                                                                            .sentences,
+                                                                    maxLines: 5,
+                                                                    minLines: 1,
+                                                                    keyboardType:
+                                                                        TextInputType
+                                                                            .multiline,
+                                                                  ),
                                                                 ),
-                                                                textCapitalization:
-                                                                    TextCapitalization
-                                                                        .sentences,
-                                                                maxLines: 5,
-                                                                minLines: 1,
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .multiline,
-                                                              ),
+                                                              ],
                                                             ),
-                                                          ],
-                                                        ),
-                                                      ))),
-                                              IconButton(
-                                                icon: Icon(
-                                                  Icons.send,
-                                                  color: Color(COLOR_PRIMARY),
-                                                ),
-                                                onPressed: null,
-                                              )
-                                            ],
+                                                          ))),
+                                                  IconButton(
+                                                    icon: Icon(
+                                                      Icons.send,
+                                                      color:
+                                                          Color(COLOR_PRIMARY),
+                                                    ),
+                                                    onPressed: null,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ])
-                                  : null),
-                        ),
-                ]), // 앱 전체 - End
-              )
-        : Stack(
-        // 노트 PDF, PPT 등 + 펜 + Sharing screen
-          children: [
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: Container(
-            color: Colors.grey[800],
-          ),
-        ),
-            Positioned(
-              top: 10,
-              left: 10,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back),
-                iconSize: 30.0,
-                color: Colors.white54,
-                onPressed: () async {
-                  setState(() {
-                    _isVideoActive = true;
-                  });
-                },
-              ),
-            ),
-          ],
-        )
+                                        ])
+                                      : null),
+                            ),
+                    ]), // 앱 전체 - End
+                  )
+                : Stack(
+                    // 노트 PDF, PPT 등 + 펜 + Sharing screen
+                    children: [
+                      // 화면
+                      _fileOn ?
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: _documentHandler.openFile(),
+                      ) : Positioned(top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                              color: Colors.grey[800]
+                          )),
 
-        // 현재 통화 연결이 안되었을 때
+                      // 뒤로가기 버튼
+                      Positioned(
+                        top: 10,
+                        left: 10,
+                        child: IconButton(
+                          icon: Icon(Icons.arrow_back),
+                          iconSize: 30.0,
+                          color: Colors.white54,
+                          onPressed: () async {
+                            setState(() {
+                              _isVideoActive = true;
+                            });
+                          },
+                        ),
+                      ),
+
+                      // 파일 버튼(Test 용)
+                      Positioned(
+                        right: 20.0,
+                        bottom: 10.0,
+                        child: FloatingActionButton(
+                          heroTag: 'fileLoadFAB',
+                          child: Icon(Icons.insert_drive_file,
+                            color: Colors.white),
+                          backgroundColor: Colors.purpleAccent,
+                          onPressed: () async {
+                            setState(() {
+                              _fileOn = !_fileOn;
+                            });
+
+                            if(_fileOn == true){
+                              await _documentHandler.loadFile();
+                            }
+                          }
+                        ),
+                      ),
+                    ],
+                  )
+
+            // 현재 통화 연결이 안되었을 때
             : Stack(
                 children: skipNulls([
                   Container(
@@ -706,7 +747,8 @@ class SmallVideoScreen extends StatelessWidget {
                       mirror: true,
                       objectFit:
                           RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-                    )*/)
+                    )*/
+                  )
                 : null),
       ),
     );
