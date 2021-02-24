@@ -9,9 +9,7 @@ class PDFHandler {
   List<PdfPageImage> _pageImages = List<PdfPageImage>();
   List<PdfPageImage> get pageImages => _pageImages;
 
-  int currentPage = 1;
-
-  PDFHandler({this.currentPage});
+  PDFHandler();
 
   // PDF 파일 생성
   Future<bool> setDocument({Uint8List data}) async {
@@ -20,7 +18,7 @@ class PDFHandler {
       for (int i = 0; i < _document.pagesCount; i++) {
         await _document.getPage(i + 1).then((page) async {
           await page
-              .render(width: page.width * 2, height: page.height * 2)
+              .render(width: page.width, height: page.height)
               .then((image) {
             _pageImages.add(image);
             page.close();
@@ -40,5 +38,10 @@ class PDFHandler {
       return false;
     });
     return setState;
+  }
+
+  void releasePDFDocument(){
+    pageImages.clear();
+    document.close();
   }
 }

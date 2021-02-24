@@ -8,36 +8,36 @@ class DocumentHandler {
   PDFHandler _pdfHandler;
   PDFHandler get pdfHandler => _pdfHandler;
   documentFormat currentDocumentFormat = documentFormat.NONE;
+  ValueNotifier<int> currentPage = ValueNotifier(1);
 
   DocumentHandler({this.currentDocumentFormat});
 
-  Future<void> loadFile() async {
+  Future<bool> loadFile() async {
     print("documentHandler loadFile");
-    await FilePicker.platform
-        .pickFiles(
-      /*allowedExtensions: ['pdf', 'pptx', 'ppt', 'doc', 'docx'],
-      allowMultiple: false,*/
-      withData: true,
-    )
-        .then((result) {
-      if (result != null) {
-        checkFileFormat(
-            fileFormat: result.files.first.extension, file: result.files.first);
-      } else {
-        // 사용자가 선택 취소(AlertDialog 또는 무시)
-      }
-    });
-    return currentDocumentFormat;
+    FilePickerResult result =
+        await FilePicker.platform.pickFiles(withData: true);
+    if (result != null) {
+      await checkFileFormat(
+          fileFormat: result.files.first.extension, file: result.files.first);
+      return true;
+    } else {
+      // 사용자가 선택 취소(AlertDialog 또는 무시)
+      return false;
+    }
   }
 
-  Widget openFile() {
+  Widget openFile({bool isLoadFile}) {
     switch (currentDocumentFormat) {
       case documentFormat.PDF:
-        return Container(
-          child: Image(
-              image: MemoryImage(
-                  pdfHandler.pageImages[pdfHandler.currentPage].bytes)),
-        );
+        return isLoadFile
+            ? ValueListenableBuilder<int>(
+            valueListenable: currentPage,
+            builder: (context, value, _) {
+              return Image(
+                image: MemoryImage(pdfHandler
+                    .pageImages[value - 1].bytes),
+            fit: BoxFit.fill);
+            }) : Center(child: CircularProgressIndicator());
       default:
         return Container();
     }
@@ -60,4 +60,35 @@ class DocumentHandler {
         break;
     }
   }
+
+  void changeDocumentPage({bool isNext}){
+    switch(currentDocumentFormat){
+      case documentFormat.PDF:
+        if(isNext == true){
+          if(_pdfHandler.document.pagesCount > currentPage.value){
+            currentPage.value +=1;
+          }
+        }else{
+          if(currentPage.value > 1)
+            currentPage.value -= 1;
+        }
+        print("PDF current page : $currentPage");
+        break;
+      default:
+        break;
+    }
+  }
+
+  void releaseDocument(){
+    switch (currentDocumentFormat){
+      case documentFormat.PDF:
+        _pdfHandler.releasePDFDocument();
+        break;
+      default:
+        break;
+    }
+
+    currentDocumentFormat = documentFormat.NONE;
+  }
+
 }
