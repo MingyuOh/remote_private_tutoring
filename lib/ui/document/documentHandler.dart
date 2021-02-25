@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:remote_private_tutoring/ui/documentViewer/pdfHandler.dart';
+import 'package:remote_private_tutoring/ui/document/pdfHandler.dart';
 
 enum documentFormat { NONE, PDF, PPTX, PPT, DOCX, DOC }
 
 class DocumentHandler {
+  FilePickerResult _file;
   PDFHandler _pdfHandler;
   PDFHandler get pdfHandler => _pdfHandler;
   documentFormat currentDocumentFormat = documentFormat.NONE;
@@ -12,13 +13,10 @@ class DocumentHandler {
 
   DocumentHandler({this.currentDocumentFormat});
 
-  Future<bool> loadFile() async {
-    print("documentHandler loadFile");
-    FilePickerResult result =
-        await FilePicker.platform.pickFiles(withData: true);
-    if (result != null) {
-      await checkFileFormat(
-          fileFormat: result.files.first.extension, file: result.files.first);
+  Future<bool> selectFile() async {
+    print("documentHandler selectFile");
+    _file = await FilePicker.platform.pickFiles(withData: true);
+    if (_file != null) {
       return true;
     } else {
       // 사용자가 선택 취소(AlertDialog 또는 무시)
@@ -26,18 +24,26 @@ class DocumentHandler {
     }
   }
 
-  Widget openFile({bool isLoadFile}) {
+  Future<bool> loadFile() async {
+    print("documentHandler loadFile");
+    if (_file != null) {
+      await checkFileFormat(fileFormat: _file.files.first.extension, file: _file.files.first);
+      return true;
+    } else {
+      // 사용자가 선택 취소(AlertDialog 또는 무시)
+      return false;
+    }
+  }
+
+  Widget openFile() {
     switch (currentDocumentFormat) {
       case documentFormat.PDF:
-        return isLoadFile
-            ? ValueListenableBuilder<int>(
+        return ValueListenableBuilder<int>(
             valueListenable: currentPage,
             builder: (context, value, _) {
-              return Image(
-                image: MemoryImage(pdfHandler
-                    .pageImages[value - 1].bytes),
+              return Image(image: MemoryImage(pdfHandler.pageImages[value - 1].bytes),
             fit: BoxFit.fill);
-            }) : Center(child: CircularProgressIndicator());
+            });
       default:
         return Container();
     }

@@ -15,7 +15,8 @@ import 'package:remote_private_tutoring/services/helper.dart';
 import 'package:remote_private_tutoring/ui/videoCall/VideoCallsHandler.dart';
 //import 'package:flutter_foreground_plugin/flutter_foreground_plugin.dart';
 import 'package:wakelock/wakelock.dart';
-import 'package:remote_private_tutoring/ui/documentViewer/documentHandler.dart';
+import 'package:remote_private_tutoring/ui/whiteboard/whiteboardHandler.dart';
+import 'package:painter/painter.dart';
 
 class VideoCallScreen extends StatefulWidget {
   final HomeConversationModel homeConversationModel;
@@ -44,11 +45,11 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       _micOn = true,
       _speakerOn = true,
       _chatOn = true,
-      _loadFile = false;
+      _loadedFile = false;
   ValueNotifier<bool> _fileOn = ValueNotifier(false);
   //ValueNotifier<Map<bool, bool>> _fileOn = ValueNotifier({false:false});
   MediaStream _localStream;
-  DocumentHandler _documentHandler;
+  WhiteboardHandler _whiteboardHandler;
 
   bool testAnim = true;
 
@@ -58,7 +59,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
-    _documentHandler = DocumentHandler();
+    _whiteboardHandler = WhiteboardHandler();
 
     /*if (!widget.isCaller) {
       // 전화를 받을 사람일 경우
@@ -103,28 +104,6 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     super.dispose();
     Wakelock.disable();
   }
-
-  */ /*Future<bool> startForegroundService() async {
-    await FlutterForegroundPlugin.setServiceMethodInterval(seconds: 5);
-    await FlutterForegroundPlugin.setServiceMethod(globalForegroundService);
-    await FlutterForegroundPlugin.startForegroundService(
-      holdWakeLock: false,
-      onStarted: () {
-        print('Foreground on Started');
-      },
-      onStopped: () {
-        print('Foreground on Stopped');
-      },
-      title: 'Tcamera',
-      content: 'Tcamera sharing your screen.',
-      iconName: 'ic_stat_mobile_screen_share',
-    );
-    return true;
-  }
-
-  void globalForegroundService() {
-    debugPrint('current datetime is ${DateTime.now()}');
-  }*/ /*
 
   void _connect() async {
     if (_signaling == null) {
@@ -217,33 +196,42 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                 height: 30.0,
                                 color: Colors.grey[800],
                                 child: InkWell(onTap: () async {
-                                  _fileOn.value =
-                                      await _documentHandler.loadFile();
-                                  setState(() {
-                                    _loadFile = !_loadFile;
-                                  });
+                                  // 이미 불러온 파일이 있을 경우 초기화
+                                  if(_loadedFile == true){
+                                    _loadedFile = false;
+                                    _whiteboardHandler.documentHandler.releaseDocument();
+                                  }
+                                  // 파일 선택
+                                  _loadedFile = await _whiteboardHandler.documentHandler.selectFile();
+
+                                  // 파일이 선택 되었을 경우 파일 로드
+                                  /*if(_loadedFile == true){
+                                      _fileOn.value = await _whiteboardHandler.documentHandler.loadFile();
+                                    }*/
                                 }),
                               ),
                             ),
                             Expanded(
                               child: Stack(children: [
-                                Positioned(
+                                _loadedFile ? Positioned(
                                   top: 0,
                                   right: 0,
                                   bottom: 0,
                                   left: 0,
-                                  child: ValueListenableBuilder<bool>(
-                                    valueListenable: _fileOn,
-                                    builder: (context, value, _) {
-                                      if (_loadFile == true) {
-                                        return _documentHandler.openFile(
-                                            isLoadFile: value);
-                                      } else {
-                                        return Container();
+                                  child: FutureBuilder(
+                                    future: _whiteboardHandler.documentHandler.loadFile().then((isLoad) => _fileOn.value = isLoad),
+                                    builder: (context, snapshot) {
+                                      if(snapshot.hasData == true){
+                                        return _whiteboardHandler.documentHandler.openFile();
+                                      }else{
+                                        return Center(child: CircularProgressIndicator());
                                       }
                                     },
-                                  ),
-                                ),
+                                  )
+                                ) : Container(),
+
+                                Painter(_whiteboardHandler.penHandler.controller),
+
                                 Align(
                                   alignment: Alignment.bottomCenter,
                                   //heightFactor: 500.0,
@@ -252,16 +240,14 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                     builder: (context, value, _) {
                                       return value
                                           ? Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                   IconButton(
                                                     icon: Icon(Icons.arrow_left),
                                                     iconSize: 70.0,
                                                     color: Colors.grey[300],
                                                     onPressed: () {
-                                                      _documentHandler.changeDocumentPage(isNext: false);
+                                                      _whiteboardHandler.documentHandler.changeDocumentPage(isNext: false);
                                                     },
                                                   ),
                                                   IconButton(
@@ -269,7 +255,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                                     iconSize: 70.0,
                                                     color: Colors.grey[300],
                                                     onPressed: () {
-                                                      _documentHandler.changeDocumentPage(isNext: true);
+                                                      _whiteboardHandler.documentHandler.changeDocumentPage(isNext: true);
                                                     },
                                                   ),
                                                 ])
@@ -292,18 +278,14 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                           // ======================= Start =======================
                           Expanded(
                               flex: REMOTE_VIDEO_SCREEN_FLEX,
-                              child: Container(
-                                  color: Colors
-                                      .blueGrey)), //VideoScreenRenderer(renderer: _remoteRenderer)),
+                              child: Container(color: Colors.blueGrey)), //VideoScreenRenderer(renderer: _remoteRenderer)),
                           // ======================= End =======================
 
                           // ================== Local Renderer ===================
                           // ======================= Start =======================
                           Expanded(
                               flex: LOCAL_VIDEO_SCREEN_FLEX,
-                              child: Container(
-                                  color: Colors
-                                      .deepPurple)) //VideoScreenRenderer(renderer: _localRenderer))
+                              child: Container(color: Colors.deepPurple)) //VideoScreenRenderer(renderer: _localRenderer))
                           // ======================= End =======================
                         ])),
                       ),

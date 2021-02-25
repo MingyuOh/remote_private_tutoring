@@ -24,12 +24,18 @@ import 'dart:io';
 final FlutterCallkeep callKeep = FlutterCallkeep();
 
 void main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isAndroid == true) {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  /////////////////////////////////////////////////
+  //////// android 스크린 캡처용 Foreground ////////
+  /////////////////////////////////////////////////
+  /*if (Platform.isAndroid == true) {
     WidgetsFlutterBinding.ensureInitialized();
     print("Start Foreground Service");
     startForegroundService();
-  }
+  }*/
+  ////////////////////////////////////////////////
+
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en'), Locale('ar')],
