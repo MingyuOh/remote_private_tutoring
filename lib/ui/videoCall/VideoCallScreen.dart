@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 import 'dart:core';
 //import 'dart:io' show Platform;
@@ -13,7 +12,6 @@ import 'package:remote_private_tutoring/constants.dart';
 import 'package:remote_private_tutoring/model/HomeConversationModel.dart';
 import 'package:remote_private_tutoring/services/helper.dart';
 import 'package:remote_private_tutoring/ui/videoCall/VideoCallsHandler.dart';
-//import 'package:flutter_foreground_plugin/flutter_foreground_plugin.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:remote_private_tutoring/ui/whiteboard/whiteboardHandler.dart';
 import 'package:painter/painter.dart';
@@ -40,15 +38,15 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   VideoCallsHandler _signaling;
   RTCVideoRenderer _localRenderer = RTCVideoRenderer(); // 자신 화면
   RTCVideoRenderer _remoteRenderer = RTCVideoRenderer(); // 상대방 화면
+  MediaStream _localStream;
   bool _isCallActive = true,
-      _noteOn = false,
       _micOn = true,
       _speakerOn = true,
       _chatOn = true,
       _loadedFile = false;
   ValueNotifier<bool> _fileOn = ValueNotifier(false);
-  //ValueNotifier<Map<bool, bool>> _fileOn = ValueNotifier({false:false});
-  MediaStream _localStream;
+  List<bool> buttonState = List(VIDEO_SCREEN_BUTTON_COUNT);
+  int selectedButton = 2;
   WhiteboardHandler _whiteboardHandler;
 
   bool testAnim = true;
@@ -181,6 +179,103 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
             ? Column(
                 children: skipNulls([
                   Expanded(
+                    flex: TOP_MENU_VIDEO_SCREEN_FLEX,
+                    child: Container(
+                      color: Colors.grey[900],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // 와이파이 시간
+                          Row(
+                            children: [
+                              Icon(Icons.wifi, color: Colors.white),
+                              SizedBox(width: 10),
+                              Text('00 : 00', style: TextStyle(color: Colors.white)),
+                            ],
+                          ),
+
+                          // 펜 기능 메뉴
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              // 파일 버튼
+                              MainButton(
+                                icon: Icons.insert_drive_file,
+                                name: '파일',
+                                color: selectedButton == 1 ? Colors.black : Colors.white,
+                                backgroundColor: selectedButton == 1 ? Colors.white : Colors.grey[900],
+                                onPressed: () async {
+                                // 이미 불러온 파일이 있을 경우 초기화
+                                if (_loadedFile == true) {
+                                  _loadedFile = false;
+                                  _whiteboardHandler.documentHandler.releaseDocument();
+                                }
+                                // 파일 선택
+                                _loadedFile = await _whiteboardHandler.documentHandler.selectFile();
+                                _buttonToggle(menuNumber: 1);
+
+                              },),
+
+                              // 펜 버튼
+                              MainButton(
+                                icon: Icons.create_outlined,
+                                name: '펜',
+                                color: selectedButton == 2 ? Colors.black : Colors.white,
+                                backgroundColor: selectedButton == 2 ? Colors.white : Colors.grey[900],
+                                onPressed: ()  {
+                                  _whiteboardHandler.penHandler.controller.eraseMode = false;
+                                  _buttonToggle(menuNumber: 2);
+                                },),
+
+                              // 지우개 버튼
+                              MainButton(
+                                icon: Icons.auto_fix_high,
+                                name: '지우개',
+                                color: selectedButton == 3 ? Colors.black : Colors.white,
+                                backgroundColor: selectedButton == 3 ? Colors.white : Colors.grey[900],
+                                onPressed: ()  {
+                                  _whiteboardHandler.penHandler.controller.eraseMode = true;
+                                  _buttonToggle(menuNumber: 3);
+                                },),
+
+                              // 클리어 버튼
+                              MainButton(
+                                icon: Icons.fiber_new,
+                                name: '초기화',
+                                color: Colors.white,
+                                backgroundColor: Colors.grey[900],
+                                onPressed: ()  {
+                                  _whiteboardHandler.penHandler.controller.clear();
+                                },),
+
+                              // 이전 버튼
+                              MainButton(
+                                icon: Icons.undo,
+                                name: '이전',
+                                color: Colors.white,
+                                backgroundColor: Colors.grey[900],
+                                onPressed: ()  {
+                                  _whiteboardHandler.penHandler.controller.undo();
+                                },),
+                            ],
+                          ),
+
+                          // 수업 종료 버튼
+                          RaisedButton(
+                            color: Colors.grey[900],
+                            child: Text('수업 종료',
+                              style: TextStyle(color: Colors.pink, fontSize: 15.0)),
+                            onPressed: () => _hangUp(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // 화이트보드 및 영상
+                  Expanded(
                     flex: VIDEO_SCREEN_FLEX,
                     child: Row(children: [
                       // 화이트보드
@@ -189,52 +284,30 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Align(
-                              alignment: Alignment.topCenter,
-                              child: Container(
-                                width: 300.0,
-                                height: 30.0,
-                                color: Colors.grey[800],
-                                child: InkWell(onTap: () async {
-                                  // 이미 불러온 파일이 있을 경우 초기화
-                                  if(_loadedFile == true){
-                                    _loadedFile = false;
-                                    _whiteboardHandler.documentHandler.releaseDocument();
-                                  }
-                                  // 파일 선택
-                                  _loadedFile = await _whiteboardHandler.documentHandler.selectFile();
-
-                                  // 파일이 선택 되었을 경우 파일 로드
-                                  /*if(_loadedFile == true){
-                                      _fileOn.value = await _whiteboardHandler.documentHandler.loadFile();
-                                    }*/
-                                }),
-                              ),
-                            ),
                             Expanded(
-                              child: Stack(children: [
-                                _loadedFile ? Positioned(
-                                  top: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  left: 0,
-                                  child: FutureBuilder(
-                                    future: _whiteboardHandler.documentHandler.loadFile().then((isLoad) => _fileOn.value = isLoad),
-                                    builder: (context, snapshot) {
-                                      if(snapshot.hasData == true){
-                                        return _whiteboardHandler.documentHandler.openFile();
-                                      }else{
-                                        return Center(child: CircularProgressIndicator());
-                                      }
-                                    },
-                                  )
-                                ) : Container(),
+                              child: Stack(children: skipNulls([
+                                _loadedFile
+                                    ? Positioned(
+                                        top: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        left: 0,
+                                        child: FutureBuilder(
+                                          future: _whiteboardHandler.documentHandler.loadFile().then((isLoad) => _fileOn.value = isLoad),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData == true) {
+                                              return _whiteboardHandler.documentHandler.openFile();
+                                            } else {
+                                              return Center(child: CircularProgressIndicator());
+                                            }
+                                          },
+                                        ))
+                                    : Container(),
 
                                 Painter(_whiteboardHandler.penHandler.controller),
 
                                 Align(
                                   alignment: Alignment.bottomCenter,
-                                  //heightFactor: 500.0,
                                   child: ValueListenableBuilder<bool>(
                                     valueListenable: _fileOn,
                                     builder: (context, value, _) {
@@ -243,7 +316,8 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                   IconButton(
-                                                    icon: Icon(Icons.arrow_left),
+                                                    icon:
+                                                        Icon(Icons.arrow_left),
                                                     iconSize: 70.0,
                                                     color: Colors.grey[300],
                                                     onPressed: () {
@@ -251,7 +325,8 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                                     },
                                                   ),
                                                   IconButton(
-                                                    icon: Icon(Icons.arrow_right),
+                                                    icon:
+                                                        Icon(Icons.arrow_right),
                                                     iconSize: 70.0,
                                                     color: Colors.grey[300],
                                                     onPressed: () {
@@ -263,145 +338,93 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                     },
                                   ),
                                 ),
-                              ]),
+                              ])),
                             ),
-                          ],
-                        ),
+                          ]),
                       ),
 
                       // 화상화면
                       Expanded(
                         flex: VIDEO_SCREEN_AREA_FLEX,
-                        child: Column(
-                            children: skipNulls([
-                          // ================== Remote Renderer ==================
-                          // ======================= Start =======================
-                          Expanded(
-                              flex: REMOTE_VIDEO_SCREEN_FLEX,
-                              child: Container(color: Colors.blueGrey)), //VideoScreenRenderer(renderer: _remoteRenderer)),
-                          // ======================= End =======================
+                        child: Container(
+                          color: Colors.black,
+                          child: Column(
+                              children: skipNulls([
+                            // ================== Remote Renderer ==================
+                            // ======================= Start =======================
+                            Expanded(
+                                flex: REMOTE_VIDEO_SCREEN_FLEX,
+                                child: Container(
+                                    color: Colors.black,
+                                    child: Center(
+                                      child: Text('선생님이 입장하지 않았습니다.',
+                                          style: TextStyle(color: Colors.white, fontSize: 10.0)),
+                                    ),
+                                ),
+                            ), //VideoScreenRenderer(renderer: _remoteRenderer)),
+                            // ======================= End ========================
 
-                          // ================== Local Renderer ===================
-                          // ======================= Start =======================
-                          Expanded(
-                              flex: LOCAL_VIDEO_SCREEN_FLEX,
-                              child: Container(color: Colors.deepPurple)) //VideoScreenRenderer(renderer: _localRenderer))
-                          // ======================= End =======================
-                        ])),
+                                Divider(height: 1, indent: 5, endIndent: 5, color: Colors.white),
+
+                            // ================== Local Renderer ===================
+                            // ======================= Start =======================
+                            Expanded(
+                                flex: LOCAL_VIDEO_SCREEN_FLEX,
+                                child: Container(
+                                  color: Colors.black,
+                                    child: Center(
+                                      child: Text('학생이 입장하지 않았습니다.',
+                                          style: TextStyle(color: Colors.white, fontSize: 10.0)),
+                                    ),
+                                ),
+                            ) //VideoScreenRenderer(renderer: _localRenderer))
+                            // ======================= End =======================
+                          ])),
+                        ),
                       ),
                     ]),
                   ),
                   Expanded(
-                    flex: MENU_VIDEO_SCREEN_FLEX,
+                    flex: BOTTOM_MENU_VIDEO_SCREEN_FLEX,
                     child: Container(
                       color: Colors.grey[900],
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // 채팅 FloatingButton
-                          FloatingActionButton(
-                            backgroundColor: Colors.blueAccent,
-                            heroTag: 'chatFAB',
-                            child: Icon(_chatOn ? Icons.chat : Icons.close),
-                            onPressed: _chatToggle,
-                          ),
+                          // 채팅 버튼
+                          MainButton(
+                              color: Colors.white,
+                              backgroundColor: Colors.grey[900],
+                              icon: Icons.chat,
+                              name: '채팅',
+                              onPressed: _chatToggle),
 
-                          SizedBox(width: 30),
+                          SizedBox(width: 20),
 
-                          FloatingActionButton(
-                            backgroundColor: Color(COLOR_ACCENT),
-                            heroTag: 'speakerFAB',
-                            child: Icon(_speakerOn
-                                ? Icons.volume_up
-                                : Icons.volume_off),
-                            onPressed: _speakerToggle,
-                          ),
+                          // 스피커 버튼
+                          MainButton(
+                              color: Colors.white,
+                              backgroundColor: Colors.grey[900],
+                              icon: _speakerOn ? Icons.volume_up : Icons.volume_off,
+                              name: '스피커',
+                              onPressed: _speakerToggle),
 
-                          SizedBox(width: 30),
+                          SizedBox(width: 20),
 
-                          FloatingActionButton(
-                            heroTag: 'hangupFAB',
-                            onPressed: () => _hangUp(),
-                            tooltip: 'hangup'.tr(),
-                            child: Icon(Icons.call_end),
-                            backgroundColor: Colors.pink,
-                          ),
-
-                          SizedBox(width: 30),
-
-                          FloatingActionButton(
-                            backgroundColor: Color(COLOR_ACCENT),
-                            heroTag: 'micFAB',
-                            child: Icon(_micOn ? Icons.mic : Icons.mic_off),
-                            onPressed: _micToggle,
-                          )
+                          // 마이크 버튼
+                          MainButton(
+                              color: Colors.white,
+                              backgroundColor: Colors.grey[900],
+                              icon: _micOn ? Icons.mic : Icons.mic_off,
+                              name: '마이크',
+                              onPressed: _micToggle),
                         ],
                       ),
                     ),
                   ),
                 ]), // 앱 전체 - End
               )
-            /*: Stack(
-                    // 노트 PDF, PPT 등 + 펜 + Sharing screen
-                    children: [
-                      _documentHandler.openFile(isLoadFile: _fileOn.value),
-                      // 화면
-                      Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: ValueListenableBuilder<bool>(
-                            valueListenable: _fileOn,
-                            builder: (context, value, _) {
-                              if (_loadFile == true) {
-                                return _documentHandler.openFile(isLoadFile: value);
-                              } else
-                                return Container();
-                            },
-                          )
-                      ),
-
-                      // 뒤로가기 버튼
-                      Positioned(
-                        top: 10,
-                        left: 10,
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_back),
-                          iconSize: 30.0,
-                          color: Colors.white54,
-                          onPressed: () async {
-                            setState(() {
-                              _isVideoActive = true;
-                            });
-                            _documentHandler.releaseDocument();
-                          },
-                        ),
-                      ),
-
-                      // 파일 버튼(Test 용)
-                      Positioned(
-                        right: 20.0,
-                        bottom: 10.0,
-                        child: FloatingActionButton(
-                            heroTag: 'fileLoadFAB',
-                            child: Icon(
-                                _loadFile
-                                    ? Icons.upload_file
-                                    : Icons.insert_drive_file,
-                                color: Colors.white),
-                            backgroundColor: Colors.purpleAccent,
-                            onPressed: () async {
-                              _fileOn.value = await _documentHandler.loadFile();
-
-                              setState(() {
-                                _loadFile = !_loadFile;
-                              });
-                            }),
-                      ),
-                    ],
-                  )*/
 
             // 현재 통화 연결이 안되었을 때
             : Stack(
@@ -494,6 +517,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   _hangUp() {
     if (_signaling != null) {
       _signaling.countdownTimer.cancel();
+      _whiteboardHandler.releaseWhiteboard();
       _signaling.bye();
     }
     if (!widget.isCaller) {
@@ -525,11 +549,46 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       _chatOn = _chatOn ? false : true;
     });
   }
+
+  // 버튼 토글
+  _buttonToggle({int menuNumber}) {
+    setState(() {
+      selectedButton == menuNumber ? selectedButton = 0 : selectedButton = menuNumber;
+    });
+  }
 }
 
-bool equalsIgnoreCase(String a, String b) =>
-    (a == null && b == null) ||
-    (a != null && b != null && a.toLowerCase() == b.toLowerCase());
+class MainButton extends StatelessWidget {
+  MainButton({@required this.icon, this.backgroundColor, @required this.name, this.color, @required this.onPressed});
+
+  final IconData icon;
+  final String name;
+  final Color backgroundColor;
+  final Color color;
+  final Function onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      color: backgroundColor,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(icon,
+              size: 20.0,
+              color: color),
+          Text(name,
+              style: TextStyle(color: color,
+              fontSize: 10.0)),
+        ],
+      ),
+
+      onPressed: this.onPressed,
+    );
+  }
+}
 
 class VideoScreenRenderer extends StatelessWidget {
   VideoScreenRenderer({@required this.renderer});

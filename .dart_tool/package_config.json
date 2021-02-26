@@ -147,7 +147,7 @@
     },
     {
       "name": "extended_image",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/extended_image-1.5.0",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/extended_image-1.6.0",
       "packageUri": "lib/",
       "languageVersion": "2.6"
     },
@@ -788,7 +788,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2021-02-18T07:22:47.284503Z",
+  "generated": "2021-02-26T10:29:24.002781Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }

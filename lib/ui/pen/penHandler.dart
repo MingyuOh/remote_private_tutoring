@@ -22,4 +22,10 @@ class PenHandler {
     controller.backgroundColor = Color(0x00ffffff);
     return controller;
   }
+
+  void releasePen(){
+    offsetPoints.clear();
+    _controller.finish();
+    _controller.dispose();
+  }
 }

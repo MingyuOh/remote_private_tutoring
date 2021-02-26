@@ -8,8 +8,13 @@ class WhiteboardHandler{
   PenHandler _penHandler;
   PenHandler get penHandler => _penHandler;
 
-  WhiteboardHandler(){
+  WhiteboardHandler() {
     _documentHandler = DocumentHandler();
     _penHandler = PenHandler();
+  }
+
+  void releaseWhiteboard(){
+    _documentHandler.releaseDocument();
+    _penHandler.releasePen();
   }
 }
