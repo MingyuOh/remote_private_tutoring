@@ -18,7 +18,7 @@ class PDFHandler {
       for (int i = 0; i < _document.pagesCount; i++) {
         await _document.getPage(i + 1).then((page) async {
           await page
-              .render(width: page.width, height: page.height)
+              .render(width: page.width * 2, height: page.height * 2)
               .then((image) {
             _pageImages.add(image);
             page.close();

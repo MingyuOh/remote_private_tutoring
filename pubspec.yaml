@@ -41,6 +41,7 @@ dependencies:
   painter: ^0.4.0
   native_pdf_view: ^3.9.0
   file_picker: ^2.1.6
+  popover: ^0.1.0
   flutter_webrtc:
     path: ../packages/flutter-webrtc-master
   flutter_foreground_plugin:

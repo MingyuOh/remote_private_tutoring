@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:remote_private_tutoring/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:popover/popover.dart';
 
 String validateName(String value) {
   String patttern = r'(^[a-zA-Z ]*$)';
@@ -248,4 +249,78 @@ String audioMessageTime(Duration audioDuration) {
   String twoDigitMinutes = twoDigits(audioDuration.inMinutes.remainder(60));
   String twoDigitSeconds = twoDigits(audioDuration.inSeconds.remainder(60));
   return "${twoDigitsHours(audioDuration.inHours)}$twoDigitMinutes:$twoDigitSeconds";
+}
+
+class MenuButton extends StatelessWidget {
+  MenuButton({@required this.icon, @required this.onPressed, @required this.name, this.color, this.splashColor, this.backgroundColor});
+
+  final IconData icon;
+  final String name;
+  final Color color;
+  final Color splashColor;
+  final Color backgroundColor;
+  final Function onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      color: backgroundColor,
+      splashColor: splashColor,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(icon, size: 20.0, color: color),
+          Text(name, style: TextStyle(color: color, fontSize: 10.0)),
+        ],
+      ),
+      onPressed: this.onPressed,
+    );
+  }
+}
+
+class DropDownMenuButton extends StatelessWidget {
+  DropDownMenuButton({@required this.icon,
+    @required this.name,
+    this.backgroundColor,
+    this.dropDownBackgroundColor,
+    this.color,
+    this.onPressed,
+    @required this.bodyBuilderWidget});
+
+  final IconData icon;
+  final String name;
+  final Color color;
+  final Color backgroundColor;
+  final Color dropDownBackgroundColor;
+  final Function onPressed;
+  final Widget bodyBuilderWidget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: RaisedButton(
+        color: backgroundColor,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(icon, size: 20.0, color: color),
+            Text(name, style: TextStyle(color: color, fontSize: 10.0)),
+          ],
+        ),
+        onPressed: () {
+          this.onPressed();
+          showPopover(
+              context: context,
+              bodyBuilder: (context) => bodyBuilderWidget,
+              direction: PopoverDirection.top,
+              backgroundColor: dropDownBackgroundColor
+          );
+        }
+      ),
+    );
+  }
 }

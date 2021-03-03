@@ -411,7 +411,7 @@
     },
     {
       "name": "native_pdf_view",
-      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/native_pdf_view-3.9.0",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/native_pdf_view-3.9.1",
       "packageUri": "lib/",
       "languageVersion": "2.8"
     },
@@ -540,6 +540,12 @@
       "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/plugin_platform_interface-1.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.1"
+    },
+    {
+      "name": "popover",
+      "rootUri": "file:///C:/Users/hotal/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/popover-0.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.9"
     },
     {
       "name": "process",
@@ -788,7 +794,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2021-02-26T10:29:24.002781Z",
+  "generated": "2021-03-02T05:24:24.771787Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }
