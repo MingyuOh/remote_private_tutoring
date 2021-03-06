@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -37,6 +38,8 @@ class VideoCallsHandler {
   Timer countdownTimer;
   var _peerConnections = new Map<String, RTCPeerConnection>();
   var _remoteCandidates = [];
+  RTCDataChannelInit _dataChannelDictionary;
+  RTCDataChannel _dataChannel;
   List<dynamic> _localCandidates = [];
   StreamSubscription hangupSub; // StreamSubscription : 스트림과 이벤트의 연결고리, 이벤트에 변경이 생기면 처리한다
   MediaStream _localStream;
@@ -49,6 +52,8 @@ class VideoCallsHandler {
   String _selfId = MyAppState.currentUser.userID; // 현재 유저
   final bool isCaller;
   final HomeConversationModel homeConversationModel;
+
+  List<Uint8List> binaryList;
 
   String get sdpSemantics =>
       WebRTC.platformIsWindows ? 'plan-b' : 'unified-plan';
@@ -120,8 +125,10 @@ class VideoCallsHandler {
     if (messagesStreamSubscription != null) {
       messagesStreamSubscription.cancel();
     }
-    _peerConnections.forEach((key, pc) {
-      pc.close();
+
+    _peerConnections.forEach((key, pc) async {
+      await _dataChannel.close();
+      await pc.close();
     });
   }
 
@@ -138,7 +145,11 @@ class VideoCallsHandler {
 
     _createPeerConnection(peerID).then((pc) async {
       _peerConnections[peerID] = pc;
+
+      await _createDataChannel(pc);
+
       await _createOffer(token, peerID, pc, context);
+
       startCountDown(context);
       listenForMessages();
       setupOnRemoteHangupListener(context);
@@ -355,7 +366,48 @@ class VideoCallsHandler {
         break;
     }
 
+    pc.onDataChannel = _onDataChannel;
+
     return pc;
+  }
+
+  _createDataChannel(RTCPeerConnection pc) async {
+    try {
+      _dataChannelDictionary = RTCDataChannelInit();
+      _dataChannelDictionary.id = 1;
+      _dataChannelDictionary.ordered = true;
+      _dataChannelDictionary.maxRetransmitTime = -1;
+      _dataChannelDictionary.maxRetransmits = -1;
+      _dataChannelDictionary.protocol = 'sctp';
+      _dataChannelDictionary.negotiated = false;
+
+      _dataChannel = await pc.createDataChannel('dataChannel', _dataChannelDictionary);
+
+      //pc.onDataChannel = _onDataChannel;
+
+      print("Create data channel");
+
+    } catch (e) {
+      print('createDataChannel() Error : ' + e.toString());
+    }
+  }
+
+  void _onDataChannel(RTCDataChannel dataChannel){
+    _dataChannel = dataChannel;
+    _dataChannel.messageStream.listen((message) {
+      if(message.type == MessageType.text){
+        // 채팅
+        print(message.text);
+      }else{
+        // 이미지
+        binaryList.add(message.binary);
+      }
+    });
+  }
+
+  Future<void> sendMessageThroughDataChannel(dynamic data) async {
+    RTCDataChannelMessage message = RTCDataChannelMessage(data);
+    await _dataChannel.send(message);
   }
 
   _createOffer(String token, String id, RTCPeerConnection pc,
@@ -458,12 +510,15 @@ class VideoCallsHandler {
     if (this.onStateChange != null) {
       this.onStateChange(SignalingState.CallStateNew);
     }
+
     String id = homeConversationModel.members.first.userID;
     RTCPeerConnection pc = await _createPeerConnection(id);
     _peerConnections[id] = pc;
     await pc.setRemoteDescription(
         new RTCSessionDescription(sessionDescription, sessionType));
+
     await _createAnswer(id, pc);
+
     if (this._remoteCandidates.length > 0) {
       _remoteCandidates.forEach((candidate) async {
         await pc.addCandidate(candidate);

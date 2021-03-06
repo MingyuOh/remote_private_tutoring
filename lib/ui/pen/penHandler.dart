@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:painter/painter.dart';
+import 'package:remote_private_tutoring/ui/videoCall/VideoCallsHandler.dart';
 
 
 class PenHandler {
@@ -10,8 +11,11 @@ class PenHandler {
 
   List<Offset> offsetPoints = List();
 
-  PenHandler(){
+  PenHandler(VideoCallsHandler handler){
     controller = _newController();
+    controller.addListener(() {
+      handler.sendMessageThroughDataChannel('send image');
+    });
   }
 
   PainterController _newController() {
@@ -23,8 +27,6 @@ class PenHandler {
 
   void releasePen(){
     offsetPoints.clear();
-    controller.finish();
-    controller.dispose();
   }
 }
 

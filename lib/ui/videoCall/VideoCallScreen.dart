@@ -40,11 +40,12 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   RTCVideoRenderer _localRenderer = RTCVideoRenderer(); // 자신 화면
   RTCVideoRenderer _remoteRenderer = RTCVideoRenderer(); // 상대방 화면
   MediaStream _localStream;
-  bool _isCallActive = true,
+  bool _isCallActive = false,
       _micOn = true,
       _speakerOn = true,
       _chatOn = true,
       _loadedFile = false;
+  //Image remoteWhiteboardImage;
   ValueNotifier<bool> _fileOn = ValueNotifier(false);
   List<bool> buttonState = List(VIDEO_SCREEN_BUTTON_COUNT);
   int selectedButton = 2;
@@ -58,15 +59,14 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
-    _whiteboardHandler = WhiteboardHandler();
-
-    /*if (!widget.isCaller) {
+    if (!widget.isCaller) {
       // 전화를 받을 사람일 경우
       FlutterRingtonePlayer.playRingtone();
       print('_VideoCallScreenState.initState');
     }
     initRenderers(); // 원격화면 초기화
     _connect();
+    _whiteboardHandler = WhiteboardHandler(_signaling);
     if (!widget.isCaller) {
       // 전화를 받을 사람일 경우
       _signaling.listenForMessages();
@@ -74,10 +74,10 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       _signaling.startCountDown(context);
       _signaling.setupOnRemoteHangupListener(context);
     }
-    Wakelock.enable();*/
+    Wakelock.enable();
   }
 
-  /*initRenderers() async {
+  initRenderers() async {
     await _localRenderer.initialize();
     await _remoteRenderer.initialize();
   }
@@ -137,6 +137,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
             break;
         }
       };
+
       _signaling.onLocalStream = ((stream) {
         if (mounted) {
           _localStream = stream;
@@ -163,11 +164,12 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
             _remoteRenderer.srcObject = null;
           });
       });
+
       if (widget.isCaller)
         _signaling.initCall(widget.homeConversationModel.members.first.fcmToken,
             widget.homeConversationModel.members.first.userID, context);
     }
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -299,13 +301,13 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                             // ======================= Start =======================
                             Expanded(
                               flex: REMOTE_VIDEO_SCREEN_FLEX,
-                              child: Container(
+                              child: VideoScreenRenderer(renderer: _remoteRenderer)/*Container(
                                 color: Colors.black,
                                 child: Center(
                                   child: Text('선생님이 입장하지 않았습니다.',
                                       style: TextStyle(color: Colors.white, fontSize: 10.0)),
                                 ),
-                              ),
+                              ),*/
                             ), //VideoScreenRenderer(renderer: _remoteRenderer)),
                             // ======================= End ========================
 
@@ -315,13 +317,13 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                             // ======================= Start =======================
                             Expanded(
                               flex: LOCAL_VIDEO_SCREEN_FLEX,
-                              child: Container(
+                              child: VideoScreenRenderer(renderer: _localRenderer)/* Container(
                                 color: Colors.black,
                                 child: Center(
                                   child: Text('학생이 입장하지 않았습니다.',
                                       style: TextStyle(color: Colors.white, fontSize: 10.0)),
                                 ),
-                              ),
+                              )*/
                             ) //VideoScreenRenderer(renderer: _localRenderer))
                             // ======================= End =======================
                           ])),
@@ -355,6 +357,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                                             },
                                           ))
                                       : Container(),
+                                  //remoteWhiteboardImage != null ? Expanded(child: remoteWhiteboardImage,) : null,
                                   Painter(_whiteboardHandler.penHandler.controller),
                                   Align(
                                     alignment: Alignment.bottomCenter,
@@ -580,12 +583,12 @@ class VideoScreenRenderer extends StatelessWidget {
         // 수정해야함
         ? Container(
             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-            /*child: RTCVideoView(
-            _remoteRenderer,
+            child: RTCVideoView(
+            renderer,
             //mirror: _isVideoActive,
             objectFit: RTCVideoViewObjectFit
                 .RTCVideoViewObjectFitCover,
-          ),*/
+          ),
             decoration: BoxDecoration(color: Color(COLOR_PRIMARY)),
           )
         : null;
