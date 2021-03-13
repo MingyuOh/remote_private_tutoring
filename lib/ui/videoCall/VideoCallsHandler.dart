@@ -366,7 +366,9 @@ class VideoCallsHandler {
         break;
     }
 
-    pc.onDataChannel = _onDataChannel;
+    pc.onDataChannel = (channel) {
+      _onDataChannel(channel);
+    };
 
     return pc;
   }
@@ -383,7 +385,7 @@ class VideoCallsHandler {
 
       _dataChannel = await pc.createDataChannel('dataChannel', _dataChannelDictionary);
 
-      //pc.onDataChannel = _onDataChannel;
+      _onDataChannel(_dataChannel);
 
       print("Create data channel");
 
@@ -392,10 +394,10 @@ class VideoCallsHandler {
     }
   }
 
-  void _onDataChannel(RTCDataChannel dataChannel){
-    _dataChannel = dataChannel;
+  void _onDataChannel(RTCDataChannel channel){
+    _dataChannel = channel;
     _dataChannel.messageStream.listen((message) {
-      if(message.type == MessageType.text){
+      if(message.type == MessageType.text) {
         // 채팅
         print(message.text);
       }else{
@@ -414,7 +416,7 @@ class VideoCallsHandler {
       BuildContext context) async {
     try {
       RTCSessionDescription s = await pc.createOffer(_constraints);
-      pc.setLocalDescription(s);
+      await pc.setLocalDescription(s);
       await _sendOffer(
           token,
           'offer',
