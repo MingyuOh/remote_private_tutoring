@@ -388,7 +388,6 @@ class VideoCallsHandler {
       _onDataChannel(_dataChannel);
 
       print("Create data channel");
-
     } catch (e) {
       print('createDataChannel() Error : ' + e.toString());
     }
